@@ -6,7 +6,7 @@ Bienvenue sur le projet **Smart Agriculture Platform**. Cette plateforme est un 
 
 Le projet utilise une architecture en microservices conteneurisée avec **Docker** :
 * **Frontend** : Développé avec **Angular 19** et servi par Nginx.
-* **API (Detection Service)** : Développé avec **FastAPI**, gérant les modèles de Deep Learning (EfficientNetB0).
+* **API (Detection Service)** : Développé avec **FastAPI**, gérant les modèles de Deep Learning (ResNet).
 
 ---
 
