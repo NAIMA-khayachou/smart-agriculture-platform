@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # Le Backend FastAPI
+  api:
+    build: ./detection-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./detection-service:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # Le Frontend Angular
+  web:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api

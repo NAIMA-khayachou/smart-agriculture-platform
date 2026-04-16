@@ -1,0 +1,19 @@
+# Environnements virtuels
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+dist/
+.angular/
+
+# Environnement et secrets
+.env
+
+# Docker logs (optionnel mais conseillé)
+*.log
