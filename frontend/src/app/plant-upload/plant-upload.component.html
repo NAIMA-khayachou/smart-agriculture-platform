@@ -1,0 +1,164 @@
+<div class="page">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header-section">
+      <p class="label">Upload Your
+        Plant Image</p>
+      <h1 class="headline">
+        Plant Disease  <br>
+        Detection
+      </h1>
+      <p class="subtitle">Protect your crops with our advanced AI technology</p>
+      <p class="desc">
+        Upload a photo of your plant for instant AI-powered diagnosis
+        and make informed decisions for sustainable agriculture.
+      </p>
+    </div>
+
+    <!-- Drop Zone -->
+    <div
+      class="drop-zone"
+      [class.drag]="isDragging()"
+      [class.filled]="!!previewUrl()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+      (click)="!previewUrl() && triggerInput()"
+    >
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        style="display:none"
+        (change)="onFileSelected($event)"
+      />
+
+      <!-- Empty state -->
+      <ng-container *ngIf="!previewUrl()">
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="upload-title">Déposez votre image ici</p>
+        <p class="upload-sub">PNG, JPG, WEBP · Max 10 MB</p>
+        <button
+          class="btn-choose"
+          (click)="$event.stopPropagation(); triggerInput()"
+        >
+          Choisir un fichier
+        </button>
+      </ng-container>
+
+      <!-- Preview -->
+      <div class="preview-wrap" *ngIf="previewUrl()">
+        <img [src]="previewUrl()" alt="Plante sélectionnée" />
+        <div class="preview-bar">
+          <span class="preview-name">{{ selectedFile()?.name }}</span>
+          <button
+            class="btn-rm"
+            (click)="$event.stopPropagation(); reset()"
+          >
+            ✕ Retirer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-area" *ngIf="status() === 'uploading'">
+      <div class="prog-lbl">
+        <span>Envoi en cours</span>
+        <span>{{ progress() }}%</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" [style.width.%]="progress()"></div>
+      </div>
+    </div>
+
+    <!-- Analyzing banner -->
+    <div class="analyzing-row" *ngIf="status() === 'analyzing'">
+      <div class="pulse-dot"></div>
+      <span>Analyse IA en cours — détection des pathogènes...</span>
+    </div>
+
+    <!-- Error -->
+    <div class="error-box" *ngIf="status() === 'error'">
+      ⚠️ {{ errorMessage() }}
+    </div>
+
+    <!-- Analyze button -->
+    <button
+      class="btn-analyze"
+      [disabled]="!selectedFile() || status() === 'uploading' || status() === 'analyzing'"
+      (click)="analyze()"
+      *ngIf="status() !== 'done'"
+    >
+      <span *ngIf="status() === 'idle' || status() === 'error'">Analyser la plante →</span>
+      <span *ngIf="status() === 'uploading'">Envoi...</span>
+      <span *ngIf="status() === 'analyzing'">Analyse IA...</span>
+    </button>
+
+    <!-- Result -->
+    <div class="result-card" *ngIf="status() === 'done' && result()">
+
+      <div class="result-header">
+        <h3>Rapport diagnostic</h3>
+        <span class="conf-badge">{{ result()!.confidence }}% confiance</span>
+      </div>
+
+      <!-- Health score -->
+      <div class="health-wrap">
+        <div class="health-top">
+          <span>Score de santé</span>
+          <span [style.color]="healthColor()">{{ result()!.health }}%</span>
+        </div>
+        <div class="h-track">
+          <div
+            class="h-fill"
+            [style.width.%]="result()!.health"
+            [style.background]="healthColor()"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Plant -->
+      <div class="rcard">
+        <div class="rc-icon">🌿</div>
+        <div class="rc-body">
+          <label>Plante identifiée</label>
+          <strong>{{ result()!.plant }}</strong>
+        </div>
+      </div>
+
+      <!-- Disease -->
+      <div class="rcard warn">
+        <div class="rc-icon">⚠️</div>
+        <div class="rc-body">
+          <label>Maladie détectée</label>
+          <strong>{{ result()!.disease }}</strong>
+        </div>
+      </div>
+
+      <!-- Treatment -->
+      <div class="rcard">
+        <div class="rc-icon">💊</div>
+        <div class="rc-body">
+          <label>Traitement recommandé</label>
+          <p>{{ result()!.treatment }}</p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="res-btns">
+        <button class="rbtn outline">📄 Télécharger rapport</button>
+        <button class="rbtn solid" (click)="reset()">↺ Nouvelle analyse</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
