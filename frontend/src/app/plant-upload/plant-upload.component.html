@@ -3,12 +3,8 @@
 
     <!-- Header -->
     <div class="header-section">
-      <p class="label">Upload Your
-        Plant Image</p>
-      <h1 class="headline">
-        Plant Disease  <br>
-        Detection
-      </h1>
+      <p class="label">Upload Your Plant Image</p>
+      <h1 class="headline">Plant Disease <br> Detection</h1>
       <p class="subtitle">Protect your crops with our advanced AI technology</p>
       <p class="desc">
         Upload a photo of your plant for instant AI-powered diagnosis
@@ -37,20 +33,10 @@
       <!-- Empty state -->
       <ng-container *ngIf="!previewUrl()">
         <div class="upload-icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
+          <lucide-icon [img]="Upload" size="26" color="#48A111"></lucide-icon>
         </div>
         <p class="upload-title">Déposez votre image ici</p>
         <p class="upload-sub">PNG, JPG, WEBP · Max 10 MB</p>
-        <button
-          class="btn-choose"
-          (click)="$event.stopPropagation(); triggerInput()"
-        >
-          Choisir un fichier
-        </button>
       </ng-container>
 
       <!-- Preview -->
@@ -58,11 +44,9 @@
         <img [src]="previewUrl()" alt="Plante sélectionnée" />
         <div class="preview-bar">
           <span class="preview-name">{{ selectedFile()?.name }}</span>
-          <button
-            class="btn-rm"
-            (click)="$event.stopPropagation(); reset()"
-          >
-            ✕ Retirer
+          <button class="btn-rm" (click)="$event.stopPropagation(); reset()">
+            <lucide-icon [img]="X" size="12" color="#fff"></lucide-icon>
+            Retirer
           </button>
         </div>
       </div>
@@ -87,7 +71,8 @@
 
     <!-- Error -->
     <div class="error-box" *ngIf="status() === 'error'">
-      ⚠️ {{ errorMessage() }}
+      <lucide-icon [img]="AlertCircle" size="16" color="#dc2626"></lucide-icon>
+      {{ errorMessage() }}
     </div>
 
     <!-- Analyze button -->
@@ -97,7 +82,10 @@
       (click)="analyze()"
       *ngIf="status() !== 'done'"
     >
-      <span *ngIf="status() === 'idle' || status() === 'error'">Analyser la plante →</span>
+      <span *ngIf="status() === 'idle' || status() === 'error'">
+        <lucide-icon [img]="ScanLine" size="16" color="#fff"></lucide-icon>
+        Analyser la plante
+      </span>
       <span *ngIf="status() === 'uploading'">Envoi...</span>
       <span *ngIf="status() === 'analyzing'">Analyse IA...</span>
     </button>
@@ -107,7 +95,10 @@
 
       <div class="result-header">
         <h3>Rapport diagnostic</h3>
-        <span class="conf-badge">{{ result()!.confidence }}% confiance</span>
+        <span class="conf-badge">
+          <lucide-icon [img]="ShieldCheck" size="12" color="#065f46"></lucide-icon>
+          {{ result()!.confidence }}% confiance
+        </span>
       </div>
 
       <!-- Health score -->
@@ -127,7 +118,9 @@
 
       <!-- Plant -->
       <div class="rcard">
-        <div class="rc-icon">🌿</div>
+        <div class="rc-icon green">
+          <lucide-icon [img]="Leaf" size="18" color="#2d6a4f"></lucide-icon>
+        </div>
         <div class="rc-body">
           <label>Plante identifiée</label>
           <strong>{{ result()!.plant }}</strong>
@@ -136,29 +129,23 @@
 
       <!-- Disease -->
       <div class="rcard warn">
-        <div class="rc-icon">⚠️</div>
+        <div class="rc-icon orange">
+          <lucide-icon [img]="AlertTriangle" size="18" color="#ea580c"></lucide-icon>
+        </div>
         <div class="rc-body">
           <label>Maladie détectée</label>
           <strong>{{ result()!.disease }}</strong>
         </div>
       </div>
 
-      <!-- Treatment -->
-      <div class="rcard">
-        <div class="rc-icon">💊</div>
-        <div class="rc-body">
-          <label>Traitement recommandé</label>
-          <p>{{ result()!.treatment }}</p>
-        </div>
-      </div>
-
       <!-- Actions -->
       <div class="res-btns">
-        <button class="rbtn outline">📄 Télécharger rapport</button>
-        <button class="rbtn solid" (click)="reset()">↺ Nouvelle analyse</button>
+        <button class="rbtn solid" (click)="reset()">
+          <lucide-icon [img]="RotateCcw" size="14" color="#fff"></lucide-icon>
+          Nouvelle analyse
+        </button>
       </div>
 
     </div>
-
   </div>
 </div>

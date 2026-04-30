@@ -1,109 +1,153 @@
-import { Component, ElementRef, ViewChild, signal, inject } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlantService, PlantAnalysisResult } from './plant-service.component';
+import {
+  LucideAngularModule,
+  Leaf,
+  AlertTriangle,
+  Upload,
+  X,
+  ScanLine,
+  ShieldCheck,
+  AlertCircle,
+  RotateCcw
+} from 'lucide-angular';
+import { DiseaseService, PredictionResult } from './plant-service.component';
 
-type Status = 'idle' | 'uploading' | 'analyzing' | 'done' | 'error';
+interface DisplayResult {
+  plant     : string;
+  disease   : string;
+  confidence: number;
+  health    : number;
+}
 
 @Component({
-  selector: 'app-plant-upload',
-  standalone: true,
-  imports: [CommonModule],
+  selector   : 'app-detection',
+  standalone : true,
+  imports    : [CommonModule, LucideAngularModule],
   templateUrl: './plant-upload.component.html',
-  styleUrls: ['./plant-upload.component.css']
+  styleUrls  : ['./plant-upload.component.css']
 })
-export class PlantUploadComponent {
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+export class DetectionComponent {
 
-  private plantService = inject(PlantService);
+  // ── Icônes Lucide ──────────────────────────────────
+  readonly Leaf          = Leaf;
+  readonly AlertTriangle = AlertTriangle;
+  readonly Upload        = Upload;
+  readonly X             = X;
+  readonly ScanLine      = ScanLine;
+  readonly ShieldCheck   = ShieldCheck;
+  readonly AlertCircle   = AlertCircle;
+  readonly RotateCcw     = RotateCcw;
 
-  isDragging = signal(false);
-  previewUrl = signal<string | null>(null);
+  // ── Signals ────────────────────────────────────────
+  isDragging   = signal(false);
+  previewUrl   = signal<string | null>(null);
   selectedFile = signal<File | null>(null);
-  status = signal<Status>('idle');
-  progress = signal(0);
-  result = signal<PlantAnalysisResult | null>(null);
-  errorMessage = signal<string>('');
+  status       = signal<'idle' | 'uploading' | 'analyzing' | 'done' | 'error'>('idle');
+  progress     = signal(0);
+  errorMessage = signal('');
+  result       = signal<DisplayResult | null>(null);
 
-  onDragOver(e: DragEvent) { e.preventDefault(); this.isDragging.set(true); }
-  onDragLeave() { this.isDragging.set(false); }
+  // ── Computed ───────────────────────────────────────
+  healthColor = computed(() => {
+    const h = this.result()?.health ?? 0;
+    if (h >= 70) return '#22c55e';
+    if (h >= 40) return '#f59e0b';
+    return '#ef4444';
+  });
+
+  constructor(private diseaseService: DiseaseService) {}
+
+  // ── Drag & Drop ────────────────────────────────────
+  onDragOver(e: DragEvent) {
+    e.preventDefault();
+    this.isDragging.set(true);
+  }
+
+  onDragLeave() {
+    this.isDragging.set(false);
+  }
 
   onDrop(e: DragEvent) {
     e.preventDefault();
     this.isDragging.set(false);
-    const f = e.dataTransfer?.files[0];
-    if (f?.type.startsWith('image/')) this.loadFile(f);
+    const file = e.dataTransfer?.files[0];
+    if (file) this.loadFile(file);
+  }
+
+  triggerInput() {
+    document.querySelector<HTMLInputElement>('input[type=file]')?.click();
   }
 
   onFileSelected(e: Event) {
-    const f = (e.target as HTMLInputElement).files?.[0];
-    if (f) this.loadFile(f);
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (file) this.loadFile(file);
   }
 
-  loadFile(f: File) {
-    this.selectedFile.set(f);
-    this.result.set(null);
+  loadFile(file: File) {
+    this.selectedFile.set(file);
+    const reader = new FileReader();
+    reader.onload = () => this.previewUrl.set(reader.result as string);
+    reader.readAsDataURL(file);
     this.status.set('idle');
-    this.progress.set(0);
-    this.errorMessage.set('');
-    const r = new FileReader();
-    r.onload = (ev) => this.previewUrl.set(ev.target?.result as string);
-    r.readAsDataURL(f);
+    this.result.set(null);
   }
-
-  triggerInput() { this.fileInput.nativeElement.click(); }
 
   reset() {
     this.selectedFile.set(null);
     this.previewUrl.set(null);
     this.status.set('idle');
-    this.progress.set(0);
     this.result.set(null);
+    this.progress.set(0);
     this.errorMessage.set('');
-    this.fileInput.nativeElement.value = '';
   }
 
+  // ── Analyse ────────────────────────────────────────
   analyze() {
     const file = this.selectedFile();
     if (!file) return;
 
     this.status.set('uploading');
     this.progress.set(0);
-    this.errorMessage.set('');
 
-    // Simulation progression upload
-    const iv = setInterval(() => {
-      this.progress.update(v => {
-        if (v >= 90) {
-          clearInterval(iv);
-          this.status.set('analyzing');
-          return 90;
-        }
-        return v + 10;
+    const interval = setInterval(() => {
+      this.progress.update(p => {
+        if (p >= 90) { clearInterval(interval); return 90; }
+        return p + 10;
       });
-    }, 120);
+    }, 100);
 
-    // Appel réel vers ton backend ResNet
-    this.plantService.analyzeImage(file).subscribe({
-      next: (data: PlantAnalysisResult) => {
-        clearInterval(iv);
+    this.diseaseService.predict(file).subscribe({
+      next: (res: PredictionResult) => {
+        clearInterval(interval);
         this.progress.set(100);
-        this.result.set(data);
-        this.status.set('done');
+        this.status.set('analyzing');
+
+        setTimeout(() => {
+          this.result.set(this.mapResult(res));
+          this.status.set('done');
+        }, 1000);
       },
-      error: (err: any) => {
-        clearInterval(iv);
-        this.errorMessage.set(
-          err?.status === 0
-            ? 'Impossible de contacter le serveur. Vérifiez que le backend est démarré.'
-            : err?.error?.detail ?? 'Erreur lors de l\'analyse.'
-        );
+      error: (err) => {
+        clearInterval(interval);
         this.status.set('error');
+        this.errorMessage.set(
+          err.error?.detail ?? 'Erreur lors de l\'analyse. Réessayez.'
+        );
       }
     });
   }
 
-  healthColor(): string {
-    const h = this.result()?.health ?? 0;
-    return h >= 75 ? '#4ade80' : h >= 50 ? '#facc15' : '#f87171';
+  // ── Mapping ────────────────────────────────────────
+  private mapResult(res: PredictionResult): DisplayResult {
+    const confidence = parseFloat(res.confiance.replace('%', ''));
+    const health     = res.statut === 'saine' ? confidence : 100 - confidence;
+
+    return {
+      plant     : res.plante,
+      disease   : res.maladie ?? 'Aucune maladie détectée',
+      confidence: Math.round(confidence),
+      health    : Math.round(health),
+    };
   }
 }

@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Le Backend FastAPI
+ 
   api:
     build: ./detection-service
     ports:

@@ -17,3 +17,7 @@ dist/
 
 # Docker logs (optionnel mais conseillé)
 *.log
+
+# Model files (IMPORTANT)
+*.pth
+*.pt
