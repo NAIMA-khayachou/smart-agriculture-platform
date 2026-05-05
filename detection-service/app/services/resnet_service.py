@@ -19,13 +19,18 @@ def load_model():
 
     model_path = os.path.join(
         os.path.dirname(__file__),
-        '..', 'models', 'best_model_finetuned.pth'
+        '..', 'models', 'test_model.pth'  # Utiliser le modèle de test
     )
 
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    try:
+        model.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
+        print("✅ Modèle de test chargé")
+    except Exception as e:
+        print(f"Erreur lors du chargement du modèle de test: {e}")
+        raise
+
     model.to(device)
     model.eval()
-    print("✅ Modèle chargé")
     return model
 
 model = load_model()
