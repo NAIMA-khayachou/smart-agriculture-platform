@@ -16,8 +16,10 @@ RUN npm run build --configuration=production
 FROM nginx:alpine
 
 # Copier les fichiers compilés depuis l'étape précédente vers le dossier Nginx
-# Note : vérifiez bien le chemin 'dist/frontend/browser' selon votre version d'Angular
 COPY --from=build-step /app/dist/frontend/browser /usr/share/nginx/html
+
+# Copier la configuration Nginx personnalisée
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Exposer le port 80 (port par défaut de Nginx)
 EXPOSE 80

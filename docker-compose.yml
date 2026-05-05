@@ -10,6 +10,7 @@ services:
       - ./detection-service:/app
     environment:
       - PYTHONUNBUFFERED=1
+    restart: unless-stopped
 
   # Le Frontend Angular
   web:
@@ -18,3 +19,4 @@ services:
       - "80:80"
     depends_on:
       - api
+    restart: unless-stopped

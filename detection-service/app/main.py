@@ -56,7 +56,7 @@ async def startup_event():
         "Tomato leaf yellow virus",
         "Tomato mold leaf",
         "Tomato two spotted spider mites leaf",
-        "grape leaf"  # 28ème classe
+        "grape leaf"
     ]
     
     model_service.set_class_names(class_names)
