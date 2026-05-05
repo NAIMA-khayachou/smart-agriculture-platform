@@ -139,11 +139,27 @@
       </div>
 
       <!-- Actions -->
+     <!-- Actions -->
       <div class="res-btns">
-        <button class="rbtn solid" (click)="reset()">
-          <lucide-icon [img]="RotateCcw" size="14" color="#fff"></lucide-icon>
-          Nouvelle analyse
-        </button>
+  <!-- Si malade → bouton Traitement -->
+          <button
+            class="rbtn solid"
+            (click)="goToTreatment()"
+            *ngIf="result()!.statut === 'malade'"
+  >
+            <lucide-icon [img]="Pill" size="14" color="#fff"></lucide-icon>
+            Voir le Traitement
+          </button>
+
+   <!-- Si saine → bouton Poser une question -->
+          <button
+              class="rbtn outline"
+             (click)="goToChat()"
+             *ngIf="result()!.statut === 'saine'"
+  >
+             <lucide-icon [img]="MessageCircle" size="14" color="#48A111"></lucide-icon>
+              Poser une Question
+          </button>
       </div>
 
     </div>

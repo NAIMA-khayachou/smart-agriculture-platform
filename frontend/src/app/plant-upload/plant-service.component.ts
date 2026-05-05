@@ -7,6 +7,7 @@ export interface PredictionResult {
   detail     : string;
   confiance  : string;
   plante     : string;
+  class_id : string; 
   statut     : 'saine' | 'malade';
   maladie    : string | null;
 }

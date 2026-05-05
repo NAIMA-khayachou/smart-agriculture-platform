@@ -1,0 +1,42 @@
+<div class="page">
+  <div class="card">
+
+    <!-- Bouton retour -->
+    <button class="btn-back" (click)="goBack()">
+      <lucide-icon [img]="ArrowLeft" size="16" color="#48A111"></lucide-icon>
+      Retour au traitement
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="loading()">
+      <div class="pulse-dot"></div>
+      <span>Chargement des détails...</span>
+    </div>
+
+    <!-- Error -->
+    <div class="error-box" *ngIf="error()">{{ error() }}</div>
+
+    <!-- Contenu -->
+    <ng-container *ngIf="!loading() && !error() && details()">
+
+      <!-- Header -->
+      <div class="header-section">
+        <h1 class="headline">Détails Complets</h1>
+      </div>
+
+      <!-- Réponse LLM -->
+      <div class="section">
+        <div class="section-header">
+          <lucide-icon [img]="Leaf" size="18" color="#48A111"></lucide-icon>
+          <h3>Informations complètes</h3>
+        </div>
+        <div class="section-content">
+          <!-- whitespace: pre-wrap pour respecter les sauts de ligne -->
+          <p style="white-space: pre-wrap; line-height: 1.7;">{{ details() }}</p>
+        </div>
+      </div>
+
+    </ng-container>
+
+  </div>
+</div>

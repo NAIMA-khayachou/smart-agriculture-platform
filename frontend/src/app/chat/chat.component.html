@@ -1,0 +1,69 @@
+<div class="chat-page">
+  <div class="chat-card">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <lucide-icon [img]="Bot" size="22" color="#48A111"></lucide-icon>
+      <div>
+        <h2>Expert Agronome</h2>
+       
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-area">
+
+      <div
+        *ngFor="let msg of messages()"
+        class="message"
+        [class.user]="msg.role === 'user'"
+        [class.assistant]="msg.role === 'assistant'"
+      >
+        <!-- Icône -->
+        <div class="msg-icon">
+          <lucide-icon
+            [img]="msg.role === 'user' ? User : Bot"
+            size="16"
+            [color]="msg.role === 'user' ? '#fff' : '#48A111'"
+          ></lucide-icon>
+        </div>
+
+        <!-- Contenu -->
+        <div class="msg-bubble">
+          {{ msg.content }}
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div class="message assistant" *ngIf="loading()">
+        <div class="msg-icon">
+          <lucide-icon [img]="Bot" size="16" color="#48A111"></lucide-icon>
+        </div>
+        <div class="msg-bubble typing">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div #messagesEnd></div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input">
+      <textarea
+        [(ngModel)]="question"
+        (ngModelChange)="question.set($event)"
+        (keydown)="onEnter($event)"
+        placeholder="Posez votre question..."
+        rows="1"
+      ></textarea>
+      <button
+        class="btn-send"
+        (click)="sendMessage()"
+        [disabled]="!question() || loading()"
+      >
+        <lucide-icon [img]="Send" size="18" color="#fff"></lucide-icon>
+      </button>
+    </div>
+
+  </div>
+</div>

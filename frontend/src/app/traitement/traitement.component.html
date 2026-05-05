@@ -1,0 +1,43 @@
+<div class="page">
+  <div class="card">
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="loading()">
+      <div class="pulse-dot"></div>
+      <span>Chargement du traitement...</span>
+    </div>
+
+    <!-- Error -->
+    <div class="error-box" *ngIf="error()">
+      {{ error() }}
+    </div>
+
+    <!-- Contenu -->
+    <ng-container *ngIf="!loading() && !error()">
+
+      <!-- Header -->
+      <div class="header-section">
+        <h1 class="headline">Plan de Traitement</h1>
+        <p class="subtitle">{{ classId() }}</p>
+      </div>
+
+      <!-- Réponse LLM -->
+      <div class="treatment-content">
+        <p>{{ response() }}</p>
+      </div>
+
+      <!-- Boutons -->
+        <div class="actions">
+            <button class="btn-details" (click)="goToDetails()">
+              <lucide-icon [img]="ClipboardList" size="16" color="#48A111"></lucide-icon>
+              Voir les Détails
+            </button>
+            <button class="btn-chat" (click)="goToChat()">
+               <lucide-icon [img]="MessageCircle" size="16" color="#fff"></lucide-icon>
+                Poser une Question
+            </button>
+        </div>
+
+    </ng-container>
+  </div>
+</div>

@@ -57,7 +57,8 @@ def format_result(class_name: str, confidence: float) -> dict:
         'confiance'  : f'{confidence:.1f}%',
         'plante'     : plant,
         'statut'     : 'saine' if is_healthy else 'malade',
-        'maladie'    : None if is_healthy else condition
+        'maladie'    : None if is_healthy else condition,
+        'class_id'   : class_name   # ← ajoute juste ça !
     }
 
 def predict(file_bytes: bytes) -> dict:

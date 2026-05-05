@@ -6,18 +6,22 @@ import {
   AlertTriangle,
   Upload,
   X,
+  Pill,
   ScanLine,
   ShieldCheck,
   AlertCircle,
-  RotateCcw
+  RotateCcw,
+  MessageCircle 
 } from 'lucide-angular';
 import { DiseaseService, PredictionResult } from './plant-service.component';
-
+import { Router } from '@angular/router';
 interface DisplayResult {
   plant     : string;
   disease   : string;
   confidence: number;
   health    : number;
+  class_id   : string; 
+  statut    : 'saine' | 'malade'; 
 }
 
 @Component({
@@ -38,7 +42,8 @@ export class DetectionComponent {
   readonly ShieldCheck   = ShieldCheck;
   readonly AlertCircle   = AlertCircle;
   readonly RotateCcw     = RotateCcw;
-
+  readonly Pill = Pill;
+  readonly MessageCircle = MessageCircle;
   // ── Signals ────────────────────────────────────────
   isDragging   = signal(false);
   previewUrl   = signal<string | null>(null);
@@ -56,7 +61,9 @@ export class DetectionComponent {
     return '#ef4444';
   });
 
-  constructor(private diseaseService: DiseaseService) {}
+  constructor(private diseaseService: DiseaseService,
+      private router: Router
+  ) {}
 
   // ── Drag & Drop ────────────────────────────────────
   onDragOver(e: DragEvent) {
@@ -119,6 +126,7 @@ export class DetectionComponent {
 
     this.diseaseService.predict(file).subscribe({
       next: (res: PredictionResult) => {
+        console.log('Réponse brute backend détection :', res); 
         clearInterval(interval);
         this.progress.set(100);
         this.status.set('analyzing');
@@ -137,7 +145,18 @@ export class DetectionComponent {
       }
     });
   }
-
+  goToTreatment() {
+    console.log('result :', this.result());
+    console.log('class_id envoyé :', this.result()!.class_id);
+    this.router.navigate(['/Traitement'], {
+        queryParams: { class_id: this.result()!.class_id }
+    });
+}
+goToChat() {
+  this.router.navigate(['/chat'], {
+    queryParams: { class_id: this.result()!.class_id }
+  });
+}
   // ── Mapping ────────────────────────────────────────
   private mapResult(res: PredictionResult): DisplayResult {
     const confidence = parseFloat(res.confiance.replace('%', ''));
@@ -148,6 +167,8 @@ export class DetectionComponent {
       disease   : res.maladie ?? 'Aucune maladie détectée',
       confidence: Math.round(confidence),
       health    : Math.round(health),
+      class_id  : res.class_id,
+      statut    : res.statut,  
     };
   }
 }
