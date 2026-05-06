@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DetectionService, DetectionResult } from '../../services/detection.service';
+import { DetectionService, DetectionResult, SegmentationResult } from '../../services/detection.service';
 
 @Component({
   selector: 'app-page-segementation',
@@ -19,6 +19,7 @@ export class PageSegementation {
   error         = signal<string | null>(null);
   showMask      = signal(true);
   maskOpacity   = signal(0.6);
+  segmentation  = signal<SegmentationResult | null>(null);
 
   constructor(private detectionService: DetectionService) {}
 
@@ -60,9 +61,10 @@ export class PageSegementation {
 
         // Étape 2 : segmentation U-Net → retourne PNG
         this.detectionService.segmentDisease(file).subscribe({
-          next: ({ url, blob }) => {
-            this.maskUrl.set(url);
-            this.maskBlob = blob;
+          next: (result) => {
+            this.maskUrl.set(result.url);
+            this.maskBlob = result.blob;
+            this.segmentation.set(result);
             this.loading.set(false);
             this.analyzed.set(true);
           },
@@ -91,6 +93,7 @@ export class PageSegementation {
     this.maskBlob = null;
     this.selectedFile.set(null);
     this.detection.set(null);
+    this.segmentation.set(null);
     this.analyzed.set(false);
     this.error.set(null);
   }

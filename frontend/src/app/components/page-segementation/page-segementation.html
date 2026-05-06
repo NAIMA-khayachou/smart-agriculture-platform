@@ -126,6 +126,23 @@
                 Le masque PNG généré par U-Net indique les zones précises
                 affectées par la maladie sur la feuille.
               </p>
+              @if (segmentation()) {
+                <div class="infection-stats">
+                  <div class="stat-row">
+                    <span class="stat-label">🔴 Pixels infectés</span>
+                    <span class="stat-value">{{ segmentation()!.infected_pixels | number }}</span>
+                  </div>
+                  <div class="stat-row">
+                    <span class="stat-label">📊 Surface infectée</span>
+                    <span class="stat-value">{{ segmentation()!.infection_percentage.toFixed(2) }}%</span>
+                  </div>
+                  <div class="infection-bar-bg">
+                    <div class="infection-bar-fill"
+                      [style.width.%]="segmentation()!.infection_percentage">
+                    </div>
+                  </div>
+                </div>
+              }
               @if (maskUrl()) {
                 <button class="btn-download" (click)="downloadMask()">⬇️ Télécharger le masque</button>
               }
