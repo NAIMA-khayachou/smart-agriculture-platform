@@ -1,0 +1,107 @@
+<div class="yield-container">
+
+  <h1>  Prédiction du Rendement Agricole</h1>
+
+  @if (loadingInfo()) {
+    <div class="loading-info">Chargement des données du modèle...</div>
+  }
+
+  @if (!loadingInfo()) {
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Région</label>
+          <select [(ngModel)]="formData.Region" name="region">
+            @for (r of regions(); track r) {
+              <option [value]="r">{{ r }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Type de sol</label>
+          <select [(ngModel)]="formData.Soil_Type" name="soil">
+            @for (s of soilTypes(); track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Culture</label>
+          <select [(ngModel)]="formData.Crop" name="crop">
+            @for (c of crops(); track c) {
+              <option [value]="c">{{ c }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Condition météo</label>
+          <select [(ngModel)]="formData.Weather_Condition" name="weather">
+            @for (w of weatherConds(); track w) {
+              <option [value]="w">{{ w }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Précipitations (mm)</label>
+          <input type="number" [(ngModel)]="formData.Rainfall_mm"
+                 name="rainfall" min="0" max="500"/>
+        </div>
+
+        <div class="field">
+          <label>Température (°C)</label>
+          <input type="number" [(ngModel)]="formData.Temperature_Celsius"
+                 name="temp" min="-10" max="60"/>
+        </div>
+
+        <div class="field">
+          <label>Jours avant récolte</label>
+          <input type="number" [(ngModel)]="formData.Days_to_Harvest"
+                 name="days" min="1" max="365"/>
+        </div>
+
+      </div>
+
+      <div class="checkboxes">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="formData.Fertilizer_Used" name="fertilizer"/>
+          Engrais utilisé
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="formData.Irrigation_Used" name="irrigation"/>
+          Irrigation utilisée
+        </label>
+      </div>
+
+      <button type="submit" [disabled]="loading()" class="btn-predict">
+        {{ loading() ? '⏳ Calcul en cours...' : ' Prédire le rendement' }}
+      </button>
+    </form>
+  }
+
+  @if (error()) {
+    <div class="error-msg">{{ error() }}</div>
+  }
+
+  @if (result()) {
+    <div class="result-card">
+      <h3>Résultat</h3>
+      <div class="yield-value">
+        {{ result()!.predicted_yield }}
+        <span class="unit">t/ha</span>
+      </div>
+      <div class="result-details">
+        <span>Culture : <strong>{{ result()!.crop }}</strong></span>
+        <span>Confiance :
+          <strong [style.color]="getConfidenceColor()">{{ result()!.confidence }}</strong>
+        </span>
+        <span>R² : <strong>{{ result()!.model_r2 }}</strong></span>
+      </div>
+    </div>
+  }
+
+</div>
