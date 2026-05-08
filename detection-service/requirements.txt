@@ -6,3 +6,4 @@ torchvision==0.20.1
 python-multipart==0.0.26
 numpy==2.4.4
 pydantic==2.13.1
+opencv-python==4.8.1.78
