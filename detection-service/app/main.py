@@ -89,3 +89,12 @@ def health_check():
         "status": "healthy",
         "model_loaded": model_service.model is not None
     } 
+
+
+@app.get("/classe")
+def  get_classe_id(classe_id:int,classe_name):
+    return  {"classe_id": classe_id,"classe_name": classe_name}
+
+
+
+
