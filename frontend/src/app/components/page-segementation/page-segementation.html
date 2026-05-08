@@ -1,13 +1,9 @@
 <div class="page">
 
-  <!-- Header -->
   <header class="header">
     <div class="header-inner">
-      <div class="logo">
-        <span>🔬</span>
-        <span>Segmentation Intelligente</span>
-      </div>
-      <p class="header-sub">Analyse visuelle des zones affectées — Modèle U-Net</p>
+      <div class="logo"><span>🔬</span><span>Segmentation Intelligente</span></div>
+      <p class="header-sub">Détection des zones malades — U-Net + ResNet50</p>
     </div>
   </header>
 
@@ -16,61 +12,50 @@
     <!-- Upload -->
     @if (!previewUrl()) {
       <div class="upload-card">
-        <div
-          class="drop-zone"
-          (dragover)="onDragOver($event)"
-          (drop)="onDrop($event)"
-          (click)="fileInput.click()"
-        >
+        <div class="drop-zone" (dragover)="onDragOver($event)" (drop)="onDrop($event)" (click)="fileInput.click()">
           <div class="drop-icon">🌿</div>
           <p class="drop-title">Déposez une image de plante</p>
-          <p class="drop-hint">JPG, PNG, WEBP — glissez ou cliquez</p>
+          <p class="drop-hint">JPG, PNG, WEBP</p>
           <button class="btn-upload">Choisir une image</button>
           <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
         </div>
       </div>
     }
 
-    <!-- Analyse -->
     @if (previewUrl()) {
       <div class="analysis-layout">
 
-        <!-- Colonne gauche : image + masque superposé -->
+        <!-- Colonne gauche -->
         <div class="image-panel">
-          <p class="panel-title">🖼️ Image originale + masque U-Net</p>
 
+          <!-- 1 : Image originale + zones dessinées par canvas -->
+          <p class="panel-title">🖼️ Image originale avec zones détectées</p>
           <div class="image-wrapper">
-            <!-- Image originale -->
-            <img [src]="previewUrl()" alt="Plante" class="plant-img" />
-
-            <!-- Masque PNG superposé -->
-            @if (analyzed() && maskUrl() && showMask()) {
-              <img
-                [src]="maskUrl()"
-                alt="Masque segmentation"
-                class="mask-img"
-                [style.opacity]="maskOpacity()"
-              />
+            <img #imgEl [src]="previewUrl()" alt="Plante" class="plant-img" />
+            @if (analyzed()) {
+              <canvas #canvas class="zones-canvas"></canvas>
             }
           </div>
 
-          <!-- Contrôles -->
           @if (analyzed()) {
-            <div class="mask-controls">
-              <button class="btn-toggle" (click)="toggleMask()">
-                {{ showMask() ? '🙈 Masquer le masque' : '👁️ Afficher le masque' }}
+            <div class="controls-row">
+              <button class="btn-toggle" (click)="toggleZones()">
+                {{ showZones() ? '🙈 Masquer zones' : '👁️ Afficher zones' }}
               </button>
-              @if (showMask()) {
-                <div class="opacity-control">
-                  <label>Opacité</label>
-                  <input
-                    type="range" min="0.1" max="1" step="0.05"
-                    [value]="maskOpacity()"
-                    (input)="onOpacityChange($event)"
-                  />
-                  <span>{{ (maskOpacity() * 100).toFixed(0) }}%</span>
-                </div>
-              }
+            </div>
+          }
+
+          <!-- 2 : Masque U-Net en dessous -->
+          @if (analyzed() && maskUrl()) {
+            <p class="panel-title" style="margin-top: 1.5rem">🗺️ Masque de segmentation U-Net</p>
+            <div class="mask-wrapper">
+              <img [src]="maskUrl()" alt="Masque" class="mask-img" [style.opacity]="maskOpacity()" />
+            </div>
+            <div class="opacity-control">
+              <label>Opacité du masque</label>
+              <input type="range" min="0.1" max="1" step="0.05"
+                [value]="maskOpacity()" (input)="onOpacityChange($event)" />
+              <span>{{ (maskOpacity() * 100).toFixed(0) }}%</span>
             </div>
           }
 
@@ -93,65 +78,76 @@
           }
         </div>
 
-        <!-- Colonne droite : résultats détection -->
+        <!-- Colonne droite : résultats -->
         @if (analyzed() && detection()) {
           <div class="results-panel">
 
-            <!-- Maladie détectée -->
+            <!-- Maladie -->
             <div class="disease-card">
               <p class="disease-label">🦠 Maladie détectée (ResNet50)</p>
               <p class="disease-name">{{ detection()!.prediction.class_name }}</p>
             </div>
 
             <!-- Confiance -->
-            <div class="confidence-card">
-              <div class="conf-row">
-                <span class="conf-label">Confiance</span>
-                <span class="conf-value" [style.color]="getConfidenceColor()">
+            <div class="stat-card">
+              <div class="stat-row">
+                <span class="stat-label">Confiance</span>
+                <span class="stat-value" [style.color]="getConfidenceColor()">
                   {{ (detection()!.prediction.confidence * 100).toFixed(1) }}%
                 </span>
               </div>
-              <div class="conf-bar-bg">
-                <div class="conf-bar-fill"
+              <div class="bar-bg">
+                <div class="bar-fill"
                   [style.width.%]="detection()!.prediction.confidence * 100"
                   [style.background]="getConfidenceColor()">
                 </div>
               </div>
             </div>
 
-            <!-- Masque info -->
-            <div class="mask-info-card">
-              <p class="mask-info-title">🗺️ Masque de segmentation</p>
-              <p class="mask-info-text">
-                Le masque PNG généré par U-Net indique les zones précises
-                affectées par la maladie sur la feuille.
-              </p>
-              @if (segmentation()) {
-                <div class="infection-stats">
-                  <div class="stat-row">
-                    <span class="stat-label">🔴 Pixels infectés</span>
-                    <span class="stat-value">{{ segmentation()!.infected_pixels | number }}</span>
-                  </div>
-                  <div class="stat-row">
-                    <span class="stat-label">📊 Surface infectée</span>
-                    <span class="stat-value">{{ segmentation()!.infection_percentage.toFixed(2) }}%</span>
-                  </div>
-                  <div class="infection-bar-bg">
-                    <div class="infection-bar-fill"
-                      [style.width.%]="segmentation()!.infection_percentage">
-                    </div>
+            <!-- Stats infection -->
+            @if (segmentation()) {
+              <div class="stat-card">
+                <div class="stat-row">
+                  <span class="stat-label">🔴 Pixels infectés</span>
+                  <span class="stat-value">{{ segmentation()!.infected_pixels | number }}</span>
+                </div>
+                <div class="stat-row" style="margin-top: 0.75rem">
+                  <span class="stat-label">📊 Surface infectée</span>
+                  <span class="stat-value" [style.color]="getInfectionColor()">
+                    {{ segmentation()!.infection_percentage.toFixed(2) }}%
+                  </span>
+                </div>
+                <div class="bar-bg" style="margin-top: 0.5rem">
+                  <div class="bar-fill"
+                    [style.width.%]="segmentation()!.infection_percentage"
+                    [style.background]="getInfectionColor()">
                   </div>
                 </div>
-              }
-              @if (maskUrl()) {
-                <button class="btn-download" (click)="downloadMask()">⬇️ Télécharger le masque</button>
-              }
-            </div>
+              </div>
+
+              <!-- Zones -->
+              <div class="zones-card">
+                <p class="zones-title">📍 Zones infectées ({{ segmentation()!.zones.length }})</p>
+                @for (zone of segmentation()!.zones; track zone.id) {
+                  <div class="zone-item">
+                    <div class="zone-dot" [style.background]="['#ef4444','#f97316','#eab308','#8b5cf6','#06b6d4'][zone.id % 5]"></div>
+                    <div class="zone-info">
+                      <span class="zone-name">Zone {{ zone.id }}</span>
+                      <span class="zone-pct">{{ zone.area_percentage }}% de la surface</span>
+                    </div>
+                    <span class="zone-px">{{ zone.area_pixels | number }} px</span>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Télécharger -->
+            @if (maskUrl()) {
+              <button class="btn-download" (click)="downloadMask()">⬇️ Télécharger le masque</button>
+            }
 
             <!-- Fichier -->
-            <div class="file-card">
-              <span>📁 {{ detection()!.filename }}</span>
-            </div>
+            <div class="file-card">📁 {{ detection()!.filename }}</div>
 
           </div>
         }

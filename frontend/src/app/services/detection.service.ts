@@ -13,6 +13,24 @@ export interface DetectionResult {
   };
 }
 
+export interface Zone {
+  id: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  area_pixels: number;
+  area_percentage: number;
+}
+
+export interface SegmentationResult {
+  url: string;
+  blob: Blob;
+  infected_pixels: number;
+  infection_percentage: number;
+  zones: Zone[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class DetectionService {
   private apiUrl     = 'http://localhost:8081/api/v1';
@@ -26,11 +44,16 @@ export class DetectionService {
     return this.http.post<DetectionResult>(`${this.apiUrl}/detect`, formData);
   }
 
-  // Le service U-Net retourne { mask: "base64...", success: true }
-  segmentDisease(file: File): Observable<{ url: string; blob: Blob }> {
+  segmentDisease(file: File): Observable<SegmentationResult> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<{ mask: string; success: boolean }>(this.segmentUrl, formData).pipe(
+    return this.http.post<{
+      mask: string;
+      success: boolean;
+      infected_pixels: number;
+      infection_percentage: number;
+      zones: Zone[];
+    }>(this.segmentUrl, formData).pipe(
       map(response => {
         const byteChars = atob(response.mask);
         const byteArr = new Uint8Array(byteChars.length);
@@ -38,7 +61,13 @@ export class DetectionService {
           byteArr[i] = byteChars.charCodeAt(i);
         }
         const blob = new Blob([byteArr], { type: 'image/png' });
-        return { url: URL.createObjectURL(blob), blob };
+        return {
+          url: URL.createObjectURL(blob),
+          blob,
+          infected_pixels: response.infected_pixels,
+          infection_percentage: response.infection_percentage,
+          zones: response.zones
+        };
       })
     );
   }
