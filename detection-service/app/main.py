@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI
+from fastapi import FastAPI , Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pathlib import Path
@@ -15,22 +15,15 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configuration CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # En production, spécifier les domaines autorisés
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Inclure les routes
-app.include_router(detection_router)
+app.include_router(disease_router)
 
 @app.on_event("startup")
 async def startup_event():
     """Charger le modèle au démarrage"""
-    model_path = Path("models/resnet50_plantdoc_final.pth")
+    model_path = Path("app/models/best_model_finetuned.pth")
+    
     
     # Classes du dataset PlantDoc (28 classes)
     class_names = [
@@ -117,6 +110,6 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": str(exc)}
     )
 
-app.include_router(disease_router, prefix="/api/v1", tags=["Disease"])
+app.include_router(disease_router)
 
 

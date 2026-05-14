@@ -19,7 +19,7 @@ def load_model():
 
     model_path = os.path.join(
         os.path.dirname(__file__),
-        '..', 'models', 'best_model_finetuned.pth'
+        '..','models', 'best_model_finetuned.pth'
     )
 
     model.load_state_dict(torch.load(model_path, map_location=device))
@@ -28,4 +28,4 @@ def load_model():
     print("✅ Modèle chargé")
     return model
 
-model = load_model()
+model = load_model()  

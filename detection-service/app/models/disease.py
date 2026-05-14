@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.prediction_logic import predict
 
-router = APIRouter()
+router = APIRouter(prefix="/api/detection-maladie")
 
 @router.post("/predict")
 async def predict_disease(file: UploadFile = File(...)):
