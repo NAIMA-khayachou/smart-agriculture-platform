@@ -82,28 +82,7 @@
         @if (analyzed() && detection()) {
           <div class="results-panel">
 
-            <!-- Maladie -->
-            <div class="disease-card">
-              <p class="disease-label">🦠 Maladie détectée (ResNet50)</p>
-              <p class="disease-name">{{ detection()!.prediction.class_name }}</p>
-            </div>
-
-            <!-- Confiance -->
-            <div class="stat-card">
-              <div class="stat-row">
-                <span class="stat-label">Confiance</span>
-                <span class="stat-value" [style.color]="getConfidenceColor()">
-                  {{ (detection()!.prediction.confidence * 100).toFixed(1) }}%
-                </span>
-              </div>
-              <div class="bar-bg">
-                <div class="bar-fill"
-                  [style.width.%]="detection()!.prediction.confidence * 100"
-                  [style.background]="getConfidenceColor()">
-                </div>
-              </div>
-            </div>
-
+           
             <!-- Stats infection -->
             @if (segmentation()) {
               <div class="stat-card">
