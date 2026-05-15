@@ -21,3 +21,6 @@ dist/
 # Model files (IMPORTANT)
 *.pth
 *.pt
+detection-service/app/models/best_model_finetuned/
+detection-service/app/models/*.pth
+detection-service/ml_models/

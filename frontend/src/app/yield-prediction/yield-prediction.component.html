@@ -1,13 +1,19 @@
 <div class="yield-container">
 
-  <h1>  Prédiction du Rendement Agricole</h1>
+  <h1> Prédiction du Rendement Agricole</h1>
 
   @if (loadingInfo()) {
     <div class="loading-info">Chargement des données du modèle...</div>
   }
+  @if (detectedCrop()) {
+  <div class="detected-crop-msg">
+    {{ detectedCrop() }}
+  </div>
+}
 
   @if (!loadingInfo()) {
     <form (ngSubmit)="onSubmit()">
+
       <div class="form-grid">
 
         <div class="field">
@@ -64,8 +70,9 @@
                  name="days" min="1" max="365"/>
         </div>
 
-      </div>
+      </div>  <!-- ← fin form-grid -->
 
+      <!-- Checkboxes -->
       <div class="checkboxes">
         <label class="checkbox-label">
           <input type="checkbox" [(ngModel)]="formData.Fertilizer_Used" name="fertilizer"/>
@@ -77,9 +84,38 @@
         </label>
       </div>
 
+      <!-- Maladie — en dehors du grid ✅ -->
+      <div class="disease-section">
+        <label class="disease-label">
+          🦠 Plantes affectées par une maladie
+        </label>
+        <div class="disease-input">
+          <input
+            type="range"
+            [(ngModel)]="formData.Disease_Affected_Percentage"
+            name="disease"
+            min="0"
+            max="100"
+            step="1"
+          />
+          <span class="disease-value"
+                [style.color]="formData.Disease_Affected_Percentage > 50 ? '#EF4444' :
+                               formData.Disease_Affected_Percentage > 20 ? '#F59E0B' : '#1D9E75'">
+            {{ formData.Disease_Affected_Percentage }}%
+          </span>
+        </div>
+        @if (formData.Disease_Affected_Percentage > 0) {
+          <div class="disease-warning">
+            ⚠️ Pénalité appliquée : -{{ (formData.Disease_Affected_Percentage * 0.40).toFixed(1) }}%
+            sur le rendement estimé
+          </div>
+        }
+      </div>
+
       <button type="submit" [disabled]="loading()" class="btn-predict">
-        {{ loading() ? '⏳ Calcul en cours...' : ' Prédire le rendement' }}
+        {{ loading() ? '⏳ Calcul en cours...' : '🌾 Prédire le rendement' }}
       </button>
+
     </form>
   }
 
@@ -100,6 +136,9 @@
           <strong [style.color]="getConfidenceColor()">{{ result()!.confidence }}</strong>
         </span>
         <span>R² : <strong>{{ result()!.model_r2 }}</strong></span>
+        @if (formData.Disease_Affected_Percentage > 0) {
+          <span>Maladie : <strong style="color: #EF4444">{{ formData.Disease_Affected_Percentage }}% affectées</strong></span>
+        }
       </div>
     </div>
   }

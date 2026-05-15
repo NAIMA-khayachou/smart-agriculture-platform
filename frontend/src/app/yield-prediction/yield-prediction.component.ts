@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { YieldService, PredictionRequest, PredictionResponse } from '../services/yield.service';
@@ -10,9 +10,11 @@ import { YieldService, PredictionRequest, PredictionResponse } from '../services
   templateUrl: './yield-prediction.component.html',
   styleUrls: ['./yield-prediction.component.css']
 })
-export class YieldPredictionComponent implements OnInit {
+export class YieldPredictionComponent implements OnInit, OnChanges {
 
-  // Signals au lieu de variables classiques
+  // ← Si le composant reçoit le résultat de détection depuis le parent
+  @Input() detectionResult: string = '';
+
   crops         = signal<string[]>([]);
   regions       = signal<string[]>([]);
   soilTypes     = signal<string[]>([]);
@@ -21,6 +23,9 @@ export class YieldPredictionComponent implements OnInit {
   loading       = signal(false);
   error         = signal('');
   result        = signal<PredictionResponse | null>(null);
+
+  // Message indiquant que la culture a été auto-remplie
+  detectedCrop  = signal('');
 
   formData: PredictionRequest = {
     Region: '',
@@ -31,7 +36,8 @@ export class YieldPredictionComponent implements OnInit {
     Fertilizer_Used: false,
     Irrigation_Used: false,
     Weather_Condition: '',
-    Days_to_Harvest: 90
+    Days_to_Harvest: 90,
+    Disease_Affected_Percentage: 0
   };
 
   constructor(private yieldService: YieldService) {}
@@ -50,6 +56,11 @@ export class YieldPredictionComponent implements OnInit {
         this.formData.Weather_Condition = info.supported_weather[0];
 
         this.loadingInfo.set(false);
+
+        // Si un résultat de détection est déjà disponible au chargement
+        if (this.detectionResult) {
+          this.applyCropFromDetection(this.detectionResult);
+        }
       },
       error: (err) => {
         console.error('❌ Erreur:', err);
@@ -57,6 +68,32 @@ export class YieldPredictionComponent implements OnInit {
         this.loadingInfo.set(false);
       }
     });
+  }
+
+  // ← Appelé quand @Input() detectionResult change
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['detectionResult'] && this.detectionResult) {
+      this.applyCropFromDetection(this.detectionResult);
+    }
+  }
+
+  // ← Extrait "Tomato" depuis "Tomato__early_blight"
+  applyCropFromDetection(detection: string): void {
+    // "Tomato__early_blight" → "Tomato"
+    const cropName = detection.split('__')[0];
+
+    // Vérifier que la culture existe dans le modèle
+    const availableCrops = this.crops();
+    const matchedCrop = availableCrops.find(
+      c => c.toLowerCase() === cropName.toLowerCase()
+    );
+
+    if (matchedCrop) {
+      this.formData = { ...this.formData, Crop: matchedCrop };
+      this.detectedCrop.set(`🌿 Culture détectée automatiquement : ${matchedCrop}`);
+    } else {
+      this.detectedCrop.set(`⚠️ Culture "${cropName}" non reconnue par le modèle`);
+    }
   }
 
   onSubmit(): void {

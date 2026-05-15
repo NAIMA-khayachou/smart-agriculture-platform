@@ -12,6 +12,7 @@ export interface PredictionRequest {
   Irrigation_Used: boolean;
   Weather_Condition: string;
   Days_to_Harvest: number;
+   Disease_Affected_Percentage: number;
 }
 
 export interface PredictionResponse {

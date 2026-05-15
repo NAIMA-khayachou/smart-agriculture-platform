@@ -158,3 +158,59 @@ h1 {
   border-radius: 20px;
   border: 1px solid #d1fae5;
 }
+.disease-section {
+  margin: 16px 0 24px;
+  padding: 16px;
+  background: #fef9f0;
+  border: 1.5px solid #fde68a;
+  border-radius: 10px;
+}
+
+.disease-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #92400e;
+  margin-bottom: 10px;
+}
+
+.disease-input {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.disease-input input[type="range"] {
+  flex: 1;
+  accent-color: #1D9E75;
+  height: 6px;
+  cursor: pointer;
+}
+
+.disease-value {
+  font-size: 20px;
+  font-weight: 700;
+  min-width: 48px;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+.disease-warning {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #b45309;
+  background: #fffbeb;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 3px solid #f59e0b;
+}
+.detected-crop-msg {
+  padding: 10px 16px;
+  background: #f0fdf4;
+  border: 1.5px solid #6ee7b7;
+  border-radius: 8px;
+  color: #0F6E56;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
