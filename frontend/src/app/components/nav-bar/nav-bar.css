@@ -1,0 +1,65 @@
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+nav {
+    display: flex;              
+    justify-content: center;   
+    align-items: center;
+    flex: 1;                    
+    gap: 20px;                  
+}
+
+nav a {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+}
+.green-toolbar{
+   background-color: oklab(100% 0 -0.00011);
+   color: white;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 12px; /* Espacement entre l'image et le texte */
+}
+
+.custom-logo {
+  height: 60px; /* Ajustez la hauteur selon vos besoins */
+  width: auto;
+  object-fit: cover;
+}
+
+.brand-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+  letter-spacing: 0.5px;
+}
+
+.spacer {
+  flex: 1 1 auto; /* Cela pousse les éléments suivants vers la droite */
+}
+
+
+/* .nav-bar{
+    display:flex;
+    justify-content: space-between;
+}
+
+nav a{
+   color: rgb(228, 223, 223);
+   margin-right: 20px;
+   text-decoration: none;
+   align-items: center;
+   font-size: 18px;
+}
+.green-toolbar{
+   background-color: rgb(33, 196, 33);
+   color: white;
+} */

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageSegementation } from './page-segementation';
+import { CardPlante } from './card-plante';
 
-describe('PageSegementation', () => {
-  let component: PageSegementation;
-  let fixture: ComponentFixture<PageSegementation>;
+describe('CardPlante', () => {
+  let component: CardPlante;
+  let fixture: ComponentFixture<CardPlante>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageSegementation],
+      imports: [CardPlante],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PageSegementation);
+    fixture = TestBed.createComponent(CardPlante);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

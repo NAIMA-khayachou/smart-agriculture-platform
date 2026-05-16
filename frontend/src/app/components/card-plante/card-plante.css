@@ -1,0 +1,23 @@
+.plant-card {
+  max-width: 400px;
+  margin: 20px auto; /* Centre la carte */
+  border-radius: 12px; /* Pour un look plus moderne */
+  overflow: hidden; /* Pour que l'image respecte les bords arrondis */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Style pour l'image dans la carte */
+.plant-card img {
+  height: 200px;
+  object-fit: COVER;
+}
+mat-card-title {
+    color: #2c3e50 !important; /* Un bleu foncé très visible */
+    display: block !important;
+}
+
+mat-card-content {
+    color: black !important;
+    padding: 16px;
+    font-size:medium;
+}

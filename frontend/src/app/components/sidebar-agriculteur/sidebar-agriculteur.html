@@ -1,0 +1,36 @@
+
+<mat-sidenav-container class="dashboard-container">
+
+  <mat-sidenav mode="side" opened class="sidebar">
+    <div class="sidebar-header">
+      <h3>PlantHealth AI</h3>
+    </div>
+    <nav class="menu-list">      
+      <a routerLink="/resume-global" class="menu-item" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon>
+        <span>Résumé Global</span>
+      </a>
+
+      <a routerLink="/detect" class="menu-item" routerLinkActive="active-link">
+        <mat-icon>psychology</mat-icon>
+        <span>Détection Maladie</span>
+      </a>
+
+      <a routerLink="/segmentation" class="menu-item" routerLinkActive="active-link">
+        <mat-icon>layers</mat-icon> <span>Localisation Maladie</span>
+      </a>
+
+      <a routerLink="/traitement" class="menu-item" routerLinkActive="active-link">
+        <mat-icon>eco</mat-icon> <span>Traitement & Support</span>
+      </a>
+
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+

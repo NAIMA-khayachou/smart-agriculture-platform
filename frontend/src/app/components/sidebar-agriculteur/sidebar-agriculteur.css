@@ -1,0 +1,43 @@
+.dashboard-container {
+  height: 100vh;
+  width: 100%;
+}
+
+.sidebar {
+  width: 280px;
+  background-color: #1b5e20; /* Ton vert */
+  color: white;
+}
+
+.sidebar-header {
+  padding: 25px 20px;
+  text-align: center;
+  background-color: #123e17;
+  color: white;
+}
+
+/* Force l'alignement vertical de la liste */
+.menu-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 100px;
+}
+
+/* Style de chaque ligne */
+.menu-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px;
+  color: #e8f5e9 !important;
+  text-decoration: none;
+}
+
+/* Couleur blanche pour les icônes Material dans le menu */
+.menu-item mat-icon {
+  color: white !important;
+}
+
+.active-link {
+  background-color: #2e7d32 !important;
+  color: white !important;
+}
