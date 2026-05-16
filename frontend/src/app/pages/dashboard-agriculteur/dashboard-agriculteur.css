@@ -1,0 +1,73 @@
+/* 1. Conteneur global qui prend tout l'écran */
+.dashboard-container {
+  height: 100vh;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* 2. Style du Sidebar */
+.sidebar {
+  width: 280px;
+  background-color: #1b5e20; /* Un beau vert forêt foncé et pro */
+  color: white;
+  border-right: none;
+}
+
+/* Titre du Sidebar */
+.sidebar-header {
+  padding: 25px 20px;
+  text-align: center;
+  background-color: #123e17; /* Un vert encore plus foncé pour le header */
+  font-weight: bold;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+/* 3. Organisation de la liste des liens */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+}
+
+/* Style de CHAQUE ligne (Lien + Icône) */
+.menu-item {
+  display: flex;
+  align-items: center; /* Aligne verticalement l'icône et le texte sur la même ligne */
+  gap: 15px;          /* Espace entre l'icône et le texte */
+  padding: 15px 20px;
+  color: #e8f5e9;     /* Blanc cassé légèrement verdâtre, très doux pour les yeux */
+  text-decoration: none; /* Enlève le soulignement bleu des liens <a> */
+  transition: all 0.3s ease; /* Transition douce pour l'effet de survol */
+}
+
+/* Effet au survol de la souris (Hover) */
+.menu-item:hover {
+  background-color: #2e7d32; /* Vert plus clair au survol */
+  color: white;
+  padding-left: 25px; /* Petit effet de glissement vers la droite */
+}
+
+/* Style pour la page actuellement active/cliquée */
+.active-link {
+  background-color: #2e7d32;
+  border-left: 5px solid #81c784; /* Petite barre verte claire lumineuse à gauche */
+  color: white;
+}
+
+/* Ajustement de la taille des icônes */
+.menu-item mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+/* 4. Zone de contenu à droite */
+.main-content {
+  background-color: #f4f6f7; /* Fond gris très clair pour faire ressortir tes cartes de dashboard */
+  padding: 25px;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TreatmentService } from '../services/treatment.service';
+import { TreatmentService } from '../../services/treatment.service';
 import { LucideAngularModule, ClipboardList, MessageCircle } from 'lucide-angular';
 @Component({
   selector: 'app-traitement',

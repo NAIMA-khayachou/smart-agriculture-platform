@@ -13,9 +13,14 @@ class ModelService:
     def load_model(self, model_path: str, num_classes: int):
         """Charge un modèle ResNet50 pré-entraîné"""
         try:
-            # Créer l'architecture ResNet50
             self.model = models.resnet50(weights=None)
-            self.model.fc = nn.Linear(self.model.fc.in_features, num_classes)
+            # Créer l'architecture ResNet50
+            self.model.fc = nn.Sequential(
+                  nn.Linear(2048, 512),
+                  nn.ReLU(),
+                  nn.Dropout(0.3),
+                  nn.Linear(512, 88)
+    )
             
             # Charger les poids
             checkpoint = torch.load(model_path, map_location=self.device)

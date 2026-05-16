@@ -1,0 +1,2 @@
+npm list @angular/material :liste des  angular materiel  qu'ona sinon empty
+ng add @angular/material : l'installation + configuration dans  angular.json. 

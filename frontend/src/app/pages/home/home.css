@@ -1,0 +1,17 @@
+.home-container {
+    min-height: 100vh;
+    background-image: url('/images/plante.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.home-content {
+    min-height: calc(100vh - 64px); /* plus flexible que height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}

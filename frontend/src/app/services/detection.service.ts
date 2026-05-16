@@ -33,7 +33,7 @@ export interface SegmentationResult {
 
 @Injectable({ providedIn: 'root' })
 export class DetectionService {
-  private apiUrl     = 'http://localhost:8081/api/v1';
+  private apiUrl     = 'http://localhost:8081/api/detection-maladie';
   private segmentUrl = 'http://127.0.0.1:8000/segementation/mask';
 
   constructor(private http: HttpClient) {}
@@ -41,7 +41,7 @@ export class DetectionService {
   detectDisease(file: File): Observable<DetectionResult> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<DetectionResult>(`${this.apiUrl}/detect`, formData);
+    return this.http.post<DetectionResult>(`${this.apiUrl}/predict`, formData);
   }
 
   segmentDisease(file: File): Observable<SegmentationResult> {

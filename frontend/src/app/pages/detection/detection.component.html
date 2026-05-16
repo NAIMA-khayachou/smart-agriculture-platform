@@ -1,0 +1,104 @@
+<div class="page">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">Smart Agriculture</span>
+      </div>
+      <p class="header-subtitle">Détection de maladies des plantes par IA</p>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="card">
+      <h2 class="card-title">Analyser une plante</h2>
+      <p class="card-desc">Uploadez une photo de votre plante pour détecter une éventuelle maladie.</p>
+
+      <!-- Zone upload -->
+      @if (!previewUrl()) {
+        <div
+          class="drop-zone"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event)"
+          (click)="fileInput.click()"
+        >
+          <div class="drop-icon">📷</div>
+          <p class="drop-text">Glissez une image ici ou <span class="drop-link">cliquez pour choisir</span></p>
+          <p class="drop-hint">JPG, PNG, WEBP — max 10 MB</p>
+          <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+        </div>
+      }
+
+      <!-- Prévisualisation -->
+      @if (previewUrl()) {
+        <div class="preview-wrapper">
+          <img [src]="previewUrl()" alt="Aperçu" class="preview-img" />
+          <button class="btn-reset" (click)="reset()">✕ Changer l'image</button>
+        </div>
+
+        @if (!result() && !loading()) {
+          <button class="btn-analyze" (click)="analyze()">
+            🔍 Analyser la plante
+          </button>
+        }
+      }
+
+      <!-- Chargement -->
+      @if (loading()) {
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Analyse en cours...</p>
+        </div>
+      }
+
+      <!-- Erreur -->
+      @if (error()) {
+        <div class="alert alert-error">
+          ⚠️ {{ error() }}
+        </div>
+      }
+
+      <!-- Résultat -->
+      @if (result()) {
+        <div class="result">
+          <div class="result-header" [class.healthy]="isHealthy(result()!.prediction.class_name)" [class.diseased]="!isHealthy(result()!.prediction.class_name)">
+            <span class="result-icon">{{ isHealthy(result()!.prediction.class_name) ? '✅' : '🦠' }}</span>
+            <div>
+              <p class="result-label">{{ isHealthy(result()!.prediction.class_name) ? 'Plante saine' : 'Maladie détectée' }}</p>
+              <p class="result-class">{{ result()!.prediction.class_name }}</p>
+            </div>
+          </div>
+
+          <div class="confidence-block">
+            <div class="confidence-row">
+              <span>Confiance</span>
+              <span class="confidence-value" [style.color]="getConfidenceColor(result()!.prediction.confidence)">
+                {{ (result()!.prediction.confidence * 100).toFixed(1) }}%
+              </span>
+            </div>
+            <div class="confidence-bar-bg">
+              <div
+                class="confidence-bar-fill"
+                [style.width.%]="result()!.prediction.confidence * 100"
+                [style.background]="getConfidenceColor(result()!.prediction.confidence)"
+              ></div>
+            </div>
+          </div>
+
+          <div class="result-meta">
+            <span>📁 {{ result()!.filename }}</span>
+          </div>
+
+          <button class="btn-analyze" (click)="reset()">🔄 Nouvelle analyse</button>
+        </div>
+      }
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Smart Agriculture Platform — Modèle ResNet50 · PlantDoc (28 classes)</p>
+  </footer>
+</div>
