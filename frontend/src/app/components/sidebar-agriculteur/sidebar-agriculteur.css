@@ -3,41 +3,95 @@
   width: 100%;
 }
 
+/* --- Style Général Sidebar --- */
 .sidebar {
-  width: 280px;
-  background-color: #1b5e20; /* Ton vert */
-  color: white;
+  width: 260px;
+  background-color: #1b5e20 !important; /* Vert sombre élégant */
+  border: none !important;
 }
 
+/* En-tête bien espacé et aligné */
 .sidebar-header {
-  padding: 25px 20px;
-  text-align: center;
-  background-color: #123e17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 30px 20px;
+  background-color: #123e17; /* Vert encore plus sombre pour le contraste */
   color: white;
 }
 
-/* Force l'alignement vertical de la liste */
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.logo-icon {
+  font-size: 28px !important;
+  height: 28px !important;
+  width: 28px !important;
+  color: #a5d6a7; /* Vert clair pour faire ressortir le logo */
+}
+
+/* --- Menu de Navigation --- */
 .menu-list {
   display: flex !important;
   flex-direction: column !important;
-  gap: 100px;
+  gap: 8px; /* Écart parfait entre les boutons */
+  padding: 20px 12px; /* Marges internes pour décoller les boutons des bords */
 }
 
-/* Style de chaque ligne */
+/* Style de base pour chaque bouton de menu */
 .menu-item {
   display: flex !important;
   align-items: center !important;
-  gap: 15px;
-  color: #e8f5e9 !important;
+  gap: 16px;
+  padding: 12px 16px;
+  color: #c8e6c9 !important; /* Couleur de texte douce et lisible sur fond vert */
   text-decoration: none;
+  border-radius: 8px; /* Bords arrondis modernes */
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Couleur blanche pour les icônes Material dans le menu */
 .menu-item mat-icon {
+  color: #c8e6c9 !important;
+  font-size: 22px !important;
+  height: 22px !important;
+  width: 22px !important;
+}
+
+/* --- Effets Interactifs (Hover & Active) --- */
+
+/* Effet au survol de la souris */
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
   color: white !important;
 }
 
-.active-link {
-  background-color: #2e7d32 !important;
+.menu-item:hover mat-icon {
   color: white !important;
+}
+
+/* Style du lien actif (Page courante) */
+.active-link {
+  background-color: #2e7d32 !important; /* Vert vibrant qui ressort bien */
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.active-link mat-icon {
+  color: white !important;
+}
+
+/* --- Zone de Contenu Principal --- */
+.main-content {
+  background-color: #f5f7f6; /* Fond légèrement gris/vert très clair pour faire ressortir les mat-cards */
+}
+
+.content-wrapper {
+  padding: 30px;
 }

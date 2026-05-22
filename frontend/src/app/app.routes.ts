@@ -1,26 +1,4 @@
-/* import { Routes } from '@angular/router';
-import { DetectionComponent } from './plant-upload/plant-upload.component';
-import { PageSegementation } from './pages/page-segementation/page-segementation';
-import {TraitementComponent} from './pages/traitement/traitement.component';
-import { ChatComponent }       from './chat/chat.component';
-import { TreatmentDetailsComponent } from './pages/traitement/traitement-details/treatment-details.component';
-import { HomeComponent } from './pages/home/home';
-import {QueNousSommeNous} from './pages/que-nous-somme-nous/que-nous-somme-nous';
-import {DashboardAgriculteur} from './pages/dashboard-agriculteur/dashboard-agriculteur';
-import { ResumeGlobalComponent } from './components/resume-global/resume-global';
-export const routes: Routes = [
-  { path: '', redirectTo: 'detection', pathMatch: 'full' },
-  {path: 'home', component: HomeComponent},
-  {path:'about' ,component: QueNousSommeNous},
-  {path:'agriculteur' ,component:DashboardAgriculteur},
-  {path:'resume-global',component:ResumeGlobalComponent},
-  { path: 'detection', component: DetectionComponent },
-  { path: 'segmentation', component: PageSegementation },
-  {path:'Traitement',component:TraitementComponent},
-  {path: 'chat', component: ChatComponent },
-  {path: 'details',component: TreatmentDetailsComponent },
-];
-*/
+
 import { Routes } from '@angular/router';
 import { DetectionComponent } from './plant-upload/plant-upload.component';
 import { PageSegementation } from './pages/page-segementation/page-segementation';
@@ -32,7 +10,6 @@ import { QueNousSommeNous } from './pages/que-nous-somme-nous/que-nous-somme-nou
 import { DashboardAgriculteur } from './pages/dashboard-agriculteur/dashboard-agriculteur';
 import { ResumeGlobalComponent } from './components/resume-global/resume-global';
 import {DetectionAgriculteurComponent} from './components/section-detection-mlade-rest/section-detection-mlade-rest';
-import {LocalisationMaladieComponent} from './components/segementation-service/segementation-service';
 export const routes: Routes = [
   // 1. Pages publiques (Hors Dashboard, pleine page)
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -53,7 +30,7 @@ export const routes: Routes = [
       { path: 'resume-global', component: ResumeGlobalComponent },
       { path: 'detection', component: DetectionComponent },
       {path: 'detect',component: DetectionAgriculteurComponent},
-      {path: 'segementation',component: LocalisationMaladieComponent},
+      { path: 'segmentation', component: PageSegementation },
       { path: 'traitement', component: TraitementComponent },
       { path: 'chat', component: ChatComponent },
       { path: 'details', component: TreatmentDetailsComponent },

@@ -1,36 +1,38 @@
-
 <mat-sidenav-container class="dashboard-container">
 
   <mat-sidenav mode="side" opened class="sidebar">
     <div class="sidebar-header">
-      <h3>PlantHealth AI</h3>
+      <mat-icon class="logo-icon">eco</mat-icon>
+      <h2>Plantdisease</h2>
     </div>
-    <nav class="menu-list">      
+    
+    <nav class="menu-list">     
       <a routerLink="/agriculteur/resume-global" class="menu-item" routerLinkActive="active-link">
         <mat-icon>dashboard</mat-icon>
         <span>Résumé Global</span>
       </a>
 
       <a routerLink="/agriculteur/detect" class="menu-item" routerLinkActive="active-link">
-        <mat-icon>psychology</mat-icon>
+        <mat-icon>image_search</mat-icon>
         <span>Détection Maladie</span>
       </a>
 
-      <a routerLink="/agriculteur/segementation" class="menu-item" routerLinkActive="active-link">
-        <mat-icon>layers</mat-icon> <span>Localisation Maladie</span>
+      <a routerLink="/agriculteur/segmentation" class="menu-item" routerLinkActive="active-link">
+        <mat-icon>grid_view</mat-icon> 
+        <span>Localisation Maladie</span>
       </a>
 
       <a routerLink="/traitement" class="menu-item" routerLinkActive="active-link">
-        <mat-icon>eco</mat-icon> <span>Traitement & Support</span>
+        <mat-icon>healing</mat-icon> 
+        <span>Traitement & Support</span>
       </a>
-
     </nav>
   </mat-sidenav>
 
   <mat-sidenav-content class="main-content">
-       <router-outlet></router-outlet>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
-
-

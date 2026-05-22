@@ -6,7 +6,6 @@ import {RouterOutlet,RouterLink,RouterLinkActive} from '@angular/router';
 import {ResumeGlobalComponent} from '../resume-global/resume-global';
 import {DetectionAgriculteurComponent} from '../section-detection-mlade-rest/section-detection-mlade-rest';
   
-import {LocalisationMaladieComponent} from '../segementation-service/segementation-service';
 @Component({
   selector: 'app-sidebar-agriculteur',
   standalone:true,
@@ -16,7 +15,7 @@ import {LocalisationMaladieComponent} from '../segementation-service/segementati
     RouterOutlet,RouterLink,
     ResumeGlobalComponent,
     DetectionAgriculteurComponent,
-    LocalisationMaladieComponent
+    
   ],
   templateUrl: './sidebar-agriculteur.html',
   styleUrl: './sidebar-agriculteur.css',
