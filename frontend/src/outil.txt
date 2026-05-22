@@ -1,3 +1,4 @@
 npm list @angular/material :liste des  angular materiel  qu'ona sinon empty
 ng add @angular/material : l'installation + configuration dans  angular.json. 
-npm install chart.js ng2-charts : pour  tracer des grafes etune bibliothèque  javascripte
+npm install chart.js ng2-charts : pour  tracer des grafes etune bibliothèque  javascripte.
+pour activer un environnement je dois utilisé cette cmd:.\venv\Scripts\Activate.ps1.

@@ -1,1 +1,90 @@
-<p>section-detection-mlade-rest works!</p>
+<div class="detection-container">
+  
+  <div class="welcome-farmer-header">
+    <div class="header-text">
+      <h2><mat-icon>star</mat-icon> Assistant de Diagnostic Virtuel</h2>
+      <p>Identifiez instantanément les anomalies sur vos cultures grâce à l'analyse cellulaire de notre IA.</p>
+    </div>
+    <div class="farmer-badge">
+      <mat-icon>account_circle</mat-icon>
+      <span>Espace Agriculteur</span>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <div *ngIf="!selectedFile && !isAnalyzing" class="upload-box"
+       (click)="fileInput.click()"
+       (dragover)="$event.preventDefault()"
+       (drop)="onFileDropped($event)">
+    
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+    
+    <div class="upload-content">
+      <div class="icon-circle">
+        <mat-icon class="upload-icon">search</mat-icon>
+      </div>
+      <h3>Déposez la photo de la feuille malade</h3>
+      <p class="subtitle">Glissez-déposez le fichier ou cliquez pour ouvrir votre appareil photo / galerie</p>
+      <span class="file-hint">Formats acceptés : JPG, PNG • Max 5Mo</span>
+    </div>
+  </div>
+
+  <div *ngIf="isAnalyzing" class="scan-box">
+    <div class="preview-wrapper">
+      <img [src]="imagePreview" alt="Analyse en cours..." class="blur-image">
+      <div class="laser-line"></div>
+    </div>
+    <div class="status-loading">
+      <mat-spinner diameter="35" color="primary"></mat-spinner>
+      <p>Calcul des caractéristiques phytosanitaires par le modèle...</p>
+    </div>
+  </div>
+
+  <div *ngIf="analysisResult && !isAnalyzing" class="result-box">
+    <div class="result-grid">
+      
+      <mat-card class="card-visual">
+        <img [src]="imagePreview" alt="Échantillon agricole">
+        <div class="card-footer-info">
+          <mat-icon>info</mat-icon>
+          <span>ID Analyse : Enregistré avec succès</span>
+        </div>
+      </mat-card>
+
+      <mat-card class="card-info" [ngClass]="analysisResult.isHealthy ? 'border-green' : 'border-sand'">
+        <mat-card-content>
+          
+          <div class="status-tag" [ngClass]="analysisResult.isHealthy ? 'tag-healthy' : 'tag-diseased'">
+            <mat-icon>{{ analysisResult.isHealthy ? 'check_circle' : 'warning' }}</mat-icon>
+            <span>{{ analysisResult.isHealthy ? 'Culture Saine' : 'Anomalie Détectée' }}</span>
+          </div>
+
+          <h2 class="crop-disease-name">{{ analysisResult.className }}</h2>
+          
+          <div class="accuracy-metrics">
+            <div class="metrics-labels">
+              <span>Certitude du diagnostic :</span>
+              <strong>{{ analysisResult.confidence }}%</strong>
+            </div>
+            <div class="progress-bar-background">
+              <div class="progress-bar-fill" [style.width.%]="analysisResult.confidence"></div>
+            </div>
+          </div>
+
+          <p class="farmer-advice">
+            <mat-icon>info</mat-icon>
+            L'image a été enregistrée avec succès dans votre historique. Vous pouvez retrouver la fiche de traitement associée à cette maladie dans la section <strong>"Traitement & Support"</strong>.
+          </p>
+
+          <button mat-raised-button class="btn-scan-again" (click)="resetScan()">
+            <mat-icon>refresh</mat-icon> Analyser un autre échantillon
+          </button>
+
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+</div>

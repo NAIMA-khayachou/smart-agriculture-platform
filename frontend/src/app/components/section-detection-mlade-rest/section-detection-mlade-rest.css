@@ -1,0 +1,295 @@
+.detection-container {
+  padding: 30px;
+  background-color: #fcfdfc; /* Fond très légèrement teinté vert/blanc */
+  min-height: 85vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* EN-TÊTE COMPOSANT */
+.welcome-farmer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.welcome-farmer-header h2 {
+  color: #1b5e20;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.welcome-farmer-header p {
+  color: #555;
+  margin: 5px 0 0 0;
+}
+
+.farmer-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 500;
+  border: 1px solid #c8e6c9;
+}
+
+.section-divider {
+  border: 0;
+  height: 1px;
+  background: #e0e0e0;
+  margin-bottom: 35px;
+}
+
+/* ZONE DE DÉPÔT ERGONOMIQUE */
+.upload-box {
+  border: 3px dashed #1b5e20;
+  background-color: #f4f9f4;
+  border-radius: 20px;
+  padding: 80px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.upload-box:hover {
+  background-color: #e8f5e9;
+  border-color: #fbc02d; 
+  transform: translateY(-2px);
+}
+
+.icon-circle {
+  width: 90px;
+  height: 90px;
+  background-color: #1b5e20;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 4px 10px rgba(27, 94, 32, 0.2);
+  transition: background-color 0.3s;
+}
+
+.upload-box:hover .icon-circle {
+  background-color: #fbc02d; 
+}
+
+.upload-icon {
+  font-size: 45px !important;
+  height: 45px !important;
+  width: 45px !important;
+  color: white;
+}
+
+.upload-content h3 {
+  font-size: 1.4rem;
+  color: #1b5e20;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.upload-content .subtitle {
+  color: #666;
+  font-size: 1rem;
+}
+
+.file-hint {
+  display: inline-block;
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #888;
+  background: white;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+/* ANIMATION LASER DE DETECTION */
+.scan-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.preview-wrapper {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.blur-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+
+.laser-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, transparent, #fbc02d, transparent);
+  box-shadow: 0 0 15px #fbc02d;
+  animation: laserMotion 2s infinite ease-in-out;
+}
+
+@keyframes laserMotion {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+
+.status-loading {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #1b5e20;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* GRILLE DE RÉSULTATS STRUCTUREE SANS MAT-CARD */
+.result-box {
+  animation: slideUp 0.4s ease-out;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 35px;
+}
+
+/* Remplacement des styles mat-card par des divs standards */
+.card-visual, .card-info {
+  background: white;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+}
+
+.card-visual img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-footer-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 15px;
+  background-color: #f5f5f5;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.card-info {
+  padding: 30px;
+}
+
+.border-green { border-left: 6px solid #1b5e20; }
+.border-sand { border-left: 6px solid #fbc02d; }
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.tag-healthy { background-color: #e8f5e9; color: #1b5e20; }
+.tag-diseased { background-color: #fffde7; color: #fbc02d; border: 1px solid #fff59d; }
+
+.crop-disease-name {
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* JAUGE DE FIABILITÉ */
+.accuracy-metrics {
+  margin: 25px 0;
+}
+
+.metrics-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+.progress-bar-background {
+  width: 100%;
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #1b5e20; 
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out; /* Animation fluide du remplissage */
+}
+
+.farmer-advice {
+  background-color: #f9fbf9;
+  border: 1px solid #e8f5e9;
+  padding: 15px;
+  border-radius: 8px;
+  color: #555;
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+/* Bouton standardisé */
+.btn-scan-again {
+  margin-top: 5px;
+  width: 100%;
+  padding: 12px;
+  background-color: #fbc02d; 
+  color: #222;
+  font-weight: 600;
+  border-radius: 8px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-scan-again:hover {
+  background-color: #f9a825;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

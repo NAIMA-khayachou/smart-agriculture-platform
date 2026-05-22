@@ -31,12 +31,15 @@ import { HomeComponent } from './pages/home/home';
 import { QueNousSommeNous } from './pages/que-nous-somme-nous/que-nous-somme-nous';
 import { DashboardAgriculteur } from './pages/dashboard-agriculteur/dashboard-agriculteur';
 import { ResumeGlobalComponent } from './components/resume-global/resume-global';
-
+import {DetectionAgriculteurComponent} from './components/section-detection-mlade-rest/section-detection-mlade-rest';
+import {LocalisationMaladieComponent} from './components/segementation-service/segementation-service';
 export const routes: Routes = [
   // 1. Pages publiques (Hors Dashboard, pleine page)
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent ,},
   { path: 'about', component: QueNousSommeNous },
+  { path: 'segmentation', component: PageSegementation },
+
 
   // 2. Le Dashboard Parent (Contient la Sidebar fixe et le <router-outlet>)
   {
@@ -45,11 +48,12 @@ export const routes: Routes = [
     children: [
       // Par défaut, quand on va sur /agriculteur, on affiche le résumé global
       { path: '', redirectTo: 'resume-global', pathMatch: 'full' },
-      
+
       // Toutes ces pages s'ouvriront AU MILIEU du Dashboard, sans recharger la sidebar
       { path: 'resume-global', component: ResumeGlobalComponent },
       { path: 'detection', component: DetectionComponent },
-      { path: 'segmentation', component: PageSegementation },
+      {path: 'detect',component: DetectionAgriculteurComponent},
+      {path: 'segementation',component: LocalisationMaladieComponent},
       { path: 'traitement', component: TraitementComponent },
       { path: 'chat', component: ChatComponent },
       { path: 'details', component: TreatmentDetailsComponent },

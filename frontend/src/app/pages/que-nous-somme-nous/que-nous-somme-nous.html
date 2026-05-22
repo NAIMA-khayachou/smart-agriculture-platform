@@ -1,34 +1,76 @@
 <app-nav-bar></app-nav-bar>
+
 <div class="about-container">
-  <mat-card class="hero-section">
-    <mat-card-header>
-      <mat-card-title><h1>À Propos de PlantHealth AI</h1></mat-card-title>
-    </mat-card-header>
+  
+  <mat-card class="hero-section modern-hero">
+    <div class="hero-layout">
+      
+      <div class="hero-text-content">
+        <span class="tech-badge">Technologie Deep Learning</span>
+        <h1>Le Deep Learning au Service de vos Cultures</h1>
+        
+        <p class="hero-lead">
+          Une plateforme intelligente dédiée à la protection et au diagnostic en temps réel de vos plantations.
+        </p>
+        
+        <p class="hero-subtext">
+          Nous mettons à la disposition des agriculteurs des modèles d'apprentissage profond avancés pour 
+          <strong>identifier</strong> la maladie, <strong>localiser</strong> les zones infectées et appliquer le bon <strong>traitement</strong>.
+        </p>
+      </div>
+
+      <div class="hero-visual-accent">
+        <mat-icon>psychology_alt</mat-icon>
+      </div>
+
+    </div>
+  </mat-card>
+
+  <h2 class="section-title">Nos Services Révolutionnaires</h2>
+  
+  <div class="features-grid">
+    <mat-card class="feature-card">
+      <div class="icon-container">
+        <mat-icon color="primary">image_search</mat-icon>
+      </div>
+      <h3>Détection Instantanée</h3>
+      <p>
+        Importez simplement une photo de votre plante. Notre modèle analyse l'image en moins de 2 secondes 
+        pour identifier précisément la maladie présente.
+      </p>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="icon-container">
+        <mat-icon color="primary">grid_view</mat-icon>
+      </div>
+      <h3>Localisation par Segmentation</h3>
+      <p>
+        Ne devinez plus où se trouve le problème. Notre technologie de segmentation délimite et localise 
+        exactement les zones infectées sur la feuille ou la plante.
+      </p>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="icon-container">
+        <mat-icon color="primary">healing</mat-icon>
+      </div>
+      <h3>Conseils de Traitement</h3>
+      <p>
+        Au-delà du diagnostic, nous vous proposons des solutions et des traitements adaptés 
+        pour soigner vos cultures et limiter l'usage abusif de pesticides.
+      </p>
+    </mat-card>
+  </div>
+
+  <mat-card class="tech-section">
     <mat-card-content>
       <p>
-        Notre plateforme utilise les dernières avancées en <strong>Deep Learning</strong> 
-        pour aider les agriculteurs à diagnostiquer instantanément les maladies de leurs cultures.
+        <mat-icon inline="true" color="accent">memory</mat-icon> 
+        Propulsé par des architectures de pointe (comme les réseaux de neurones résiduels), 
+        garantissant une précision de détection optimale sur le terrain.
       </p>
     </mat-card-content>
   </mat-card>
 
-  <div class="features-grid">
-    <mat-card>
-      <mat-icon color="primary">biotech</mat-icon>
-      <h3>Technologie ResNet</h3>
-      <p>Nous utilisons des réseaux de neurones résiduels pour une précision de détection optimale.</p>
-    </mat-card>
-
-    <mat-card>
-      <mat-icon color="primary">speed</mat-icon>
-      <h3>Diagnostic Instantané</h3>
-      <p>Obtenez un résultat en moins de 2 secondes pour agir rapidement sur vos récoltes.</p>
-    </mat-card>
-
-    <mat-card>
-      <mat-icon color="primary">eco</mat-icon>
-      <h3>Agriculture Durable</h3>
-      <p>Réduisez l'usage de pesticides en identifiant précisément le problème.</p>
-    </mat-card>
-  </div>
 </div>
