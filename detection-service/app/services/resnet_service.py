@@ -19,7 +19,7 @@ def load_model():
 
     model_path = os.path.join(
         os.path.dirname(__file__),
-        '..','models', 'best_model_finetuned.pth'
+        '..','models', 'best_model_finetuned_latifa.pth'
     )
 
     try:

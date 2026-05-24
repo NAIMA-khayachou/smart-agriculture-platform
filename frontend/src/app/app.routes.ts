@@ -1,7 +1,7 @@
 
 import { Routes } from '@angular/router';
 import { DetectionComponent } from './plant-upload/plant-upload.component';
-<<<<<<< HEAD
+
 import { PageSegementation } from './pages/page-segementation/page-segementation';
 import { TraitementComponent } from './pages/traitement/traitement.component';
 import { ChatComponent } from './chat/chat.component';
@@ -12,7 +12,7 @@ import { DashboardAgriculteur } from './pages/dashboard-agriculteur/dashboard-ag
 import { ResumeGlobalComponent } from './components/resume-global/resume-global';
 import {DetectionAgriculteurComponent} from './components/section-detection-mlade-rest/section-detection-mlade-rest';
 import { Login } from './pages/login/login';
-import { YieldPredictionComponent } from './yield-prediction/yield-prediction.component';
+//import { YieldPredictionComponent } from './pages/yield-prediction/yield-prediction.component';
 import {Register} from './pages/register/register';
 
 
@@ -22,9 +22,9 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent ,},
   { path: 'about', component: QueNousSommeNous },
   { path: 'segmentation', component: PageSegementation },
-  {path:'Admin' , component:Login},
+  {path:'login' , component:Login},
   {path: 'Register', component: Register},
-  {path: 'yield', component: YieldPredictionComponent },
+  //{path: 'yield', component: YieldPredictionComponent },
 
 
   // 2. Le Dashboard Parent (Contient la Sidebar fixe et le <router-outlet>)
@@ -37,7 +37,8 @@ export const routes: Routes = [
 
       // Toutes ces pages s'ouvriront AU MILIEU du Dashboard, sans recharger la sidebar
       { path: 'resume-global', component: ResumeGlobalComponent },
-      { path: 'detect', component: DetectionComponent },
+      { path: 'detection', component: DetectionComponent },
+      {path: 'detect',component: DetectionAgriculteurComponent},
       { path: 'segmentation', component: PageSegementation },
       { path: 'traitement', component: TraitementComponent },
       { path: 'chat', component: ChatComponent },

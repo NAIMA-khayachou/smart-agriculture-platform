@@ -13,7 +13,7 @@ import {
   RotateCcw,
   MessageCircle 
 } from 'lucide-angular';
-import { DiseaseService, PredictionResult } from './plant-service.component';
+import { DiseaseService, PredictionResult } from '../services/plant-service.component';
 import { Router } from '@angular/router';
 interface DisplayResult {
   plant     : string;

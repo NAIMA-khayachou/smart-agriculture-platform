@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PlantService {
   // L'URL de ton API Python (FastAPI / Flask / Django)
-  private apiUrl = 'http://localhost:8081/api/detection-maladie/predict'; 
+  private apiUrl = 'http://localhost:8000/predict'; 
 
   constructor(private http: HttpClient) { }
 
