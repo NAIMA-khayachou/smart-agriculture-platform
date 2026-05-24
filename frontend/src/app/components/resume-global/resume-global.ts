@@ -69,4 +69,5 @@ export class ResumeGlobalComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }
+  
 }

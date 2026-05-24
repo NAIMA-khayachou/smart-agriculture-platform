@@ -37,8 +37,7 @@ export const routes: Routes = [
 
       // Toutes ces pages s'ouvriront AU MILIEU du Dashboard, sans recharger la sidebar
       { path: 'resume-global', component: ResumeGlobalComponent },
-      { path: 'detection', component: DetectionComponent },
-      {path: 'detect',component: DetectionAgriculteurComponent},
+      { path: 'detect', component: DetectionComponent },
       { path: 'segmentation', component: PageSegementation },
       { path: 'traitement', component: TraitementComponent },
       { path: 'chat', component: ChatComponent },
