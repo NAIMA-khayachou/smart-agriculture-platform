@@ -22,10 +22,16 @@ def load_model():
         '..','models', 'best_model_finetuned.pth'
     )
 
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    try:
+        state_dict = torch.load(model_path, map_location=device, weights_only=True)
+        model.load_state_dict(state_dict)
+        print("✅ Modèle best_model_finetuned.pth chargé avec succès")
+    except Exception as e:
+        print(f"❌ Erreur : {e}")
+        raise
+
     model.to(device)
     model.eval()
-    print("✅ Modèle chargé")
     return model
 
 model = load_model()  

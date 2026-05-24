@@ -1,0 +1,6 @@
+
+app/models/best_model_finetuned/
+
+app/models/*.pth
+
+app/models/test_model.pth

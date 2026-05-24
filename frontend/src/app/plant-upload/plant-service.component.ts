@@ -15,7 +15,9 @@ export interface PredictionResult {
 @Injectable({ providedIn: 'root' })
 export class DiseaseService {
 
+
   private apiUrl = 'http://localhost:8081/api/detection-maladie/predict';
+
 
   constructor(private http: HttpClient) {}
 
