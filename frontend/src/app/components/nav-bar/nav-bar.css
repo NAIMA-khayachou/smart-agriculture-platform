@@ -26,11 +26,11 @@ nav a {
   display: flex;
   align-items: center;
   cursor: pointer;
-  gap: 12px; /* Espacement entre l'image et le texte */
+  gap: 0px; /* Espacement entre l'image et le texte */
 }
 
 .custom-logo {
-  height: 60px; /* Ajustez la hauteur selon vos besoins */
+  height:98px; /* Ajustez la hauteur selon vos besoins */
   width: auto;
   object-fit: cover;
 }

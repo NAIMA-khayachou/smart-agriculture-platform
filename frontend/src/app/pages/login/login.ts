@@ -69,7 +69,7 @@ export class Login implements OnInit {
       if (this.activeTab === 'admin') {
         this.router.navigate(['/admin']);
       } else {
-        this.router.navigate(['/agriculture/dashboard']);
+        this.router.navigate(['/agriculteur']);
       }
     }, 1500);
   }

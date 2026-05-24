@@ -23,7 +23,7 @@ export const routes: Routes = [
   { path: 'about', component: QueNousSommeNous },
   { path: 'segmentation', component: PageSegementation },
   {path:'login' , component:Login},
-  {path: 'Register', component: Register},
+  {path: 'register', component: Register},
   //{path: 'yield', component: YieldPredictionComponent },
 
 
