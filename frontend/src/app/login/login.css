@@ -1,0 +1,294 @@
+/* login.component.css */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #dcedc8 100%);
+  padding: 24px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Carte agrandie ── */
+.login-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 52px 48px;        /* plus généreux qu'avant (40px 36px) */
+  width: 100%;
+  max-width: 520px;           /* élargie : 460px → 520px */
+  box-shadow: 0 10px 50px rgba(72, 161, 17, 0.13);
+}
+
+/* ── Header ── */
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.logo-img {
+  height: 200px;        /* hauteur augmentée pour un logo horizontal */
+  width: 900px;         /* conserve le ratio automatiquement */
+  max-width: 950px;    /* plafond pour ne pas déborder de la carte */
+  object-fit: contain;
+  display: block;
+}
+
+
+
+.page-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #1a2e1c;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #6b7c6d;
+}
+
+/* ── Tabs ── */
+.tab-group {
+  display: flex;
+  background: #edf7e5;
+  border-radius: 14px;
+  padding: 5px;
+  gap: 5px;
+  margin-bottom: 32px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: transparent;
+  color: #6b7c6d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.tab-icon {
+  flex-shrink: 0;
+}
+
+.tab-btn.active {
+  background: #48A111;
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(72, 161, 17, 0.32);
+}
+
+.tab-btn:not(.active):hover {
+  background: rgba(72, 161, 17, 0.1);
+  color: #48A111;
+}
+
+/* ── Form Groups ── */
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2e1c;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.label-row .form-label { margin-bottom: 0; }
+
+.forgot-link {
+  font-size: 12px;
+  color: #48A111;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-link:hover { text-decoration: underline; }
+
+/* ── Input Wrapper ── */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #c8e6c9;
+  border-radius: 12px;
+  background: #f2faea;
+  padding: 0 14px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.input-wrapper:focus-within {
+  border-color: #48A111;
+  box-shadow: 0 0 0 3px rgba(72, 161, 17, 0.13);
+  background: #ffffff;
+}
+
+/* Pas de rouge sur les champs invalides — juste un style neutre */
+/* .input-wrapper.invalid { } — aucune surbrillance rouge */
+
+.input-icon {
+  color: #7aab58;
+  margin-right: 10px;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.form-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 14px 0;
+  font-size: 14px;
+  color: #1a2e1c;
+  outline: none;
+}
+
+.form-input::placeholder { color: #a5bfa8; }
+
+.eye-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #7aab58;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.eye-btn:hover {
+  background: rgba(72, 161, 17, 0.1);
+  color: #48A111;
+}
+
+/* ── Messages d'erreur sous les champs ── */
+.error-msg {
+  font-size: 12px;
+  color: #b05c00;           /* orange foncé — visible sans rouge agressif */
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Remember me ── */
+.remember-row {
+  margin-bottom: 26px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #1a2e1c;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #48A111;
+  cursor: pointer;
+}
+
+/* ── Alert Error ── */
+.alert-error {
+  background: #fff8f0;
+  border: 1px solid #ffd699;
+  color: #b05c00;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Submit Button ── */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: #48A111;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #3a8a0d;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(72, 161, 17, 0.32);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ── Spinner ── */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255,255,255,0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 560px) {
+  .login-card {
+    padding: 32px 22px;
+    max-width: 100%;
+  }
+  .page-title { font-size: 25px; }
+}

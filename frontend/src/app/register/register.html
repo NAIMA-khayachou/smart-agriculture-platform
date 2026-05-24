@@ -1,0 +1,124 @@
+<!-- Page wrapper : centre le formulaire -->
+<div class="page-wrapper">
+  <div class="form-container">
+
+    <!-- Header -->
+    <div class="form-header">
+      <h2>Créer votre compte</h2>
+      <p>Remplissez les informations ci-dessous pour rejoindre la plateforme</p>
+    </div>
+
+    <!-- Barre de progression -->
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progressPercent"></div>
+    </div>
+
+    <!-- Formulaire -->
+    <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- Nom & Prénom -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <div class="input-wrap" [class.invalid]="isInvalid('nom')">
+            <i class="ti ti-user"></i>
+            <input id="nom" type="text" formControlName="nom" placeholder="El Alami" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prenom">Prénom</label>
+          <div class="input-wrap" [class.invalid]="isInvalid('prenom')">
+            <i class="ti ti-user-circle"></i>
+            <input id="prenom" type="text" formControlName="prenom" placeholder="Hassan" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <div class="input-wrap" [class.invalid]="isInvalid('email')">
+          <i class="ti ti-mail"></i>
+          <input id="email" type="email" formControlName="email" placeholder="hassan@example.ma" />
+        </div>
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-wrap" [class.invalid]="isInvalid('password')">
+          <i class="ti ti-lock"></i>
+          <input id="password"
+                 [type]="showPassword ? 'text' : 'password'"
+                 formControlName="password"
+                 placeholder="Minimum 8 caractères" />
+          <button type="button" class="pass-toggle" (click)="showPassword = !showPassword">
+            <i [class]="showPassword ? 'ti ti-eye-off' : 'ti ti-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Région / Ville -->
+      <div class="form-group">
+        <label for="region">Région / Ville</label>
+        <div class="input-wrap select-wrap" [class.invalid]="isInvalid('region')">
+          <i class="ti ti-map-pin"></i>
+          <select id="region" formControlName="region">
+            <option value="" disabled>Sélectionnez votre région</option>
+            <option value="marrakech-safi">Marrakech-Safi</option>
+            <option value="casablanca-settat">Casablanca-Settat</option>
+            <option value="rabat-sale-kenitra">Rabat-Salé-Kénitra</option>
+            <option value="fes-meknes">Fès-Meknès</option>
+            <option value="souss-massa">Souss-Massa</option>
+            <option value="oriental">Oriental</option>
+            <option value="beni-mellal">Béni Mellal-Khénifra</option>
+            <option value="draa-tafilalet">Drâa-Tafilalet</option>
+            <option value="tanger-tetouan">Tanger-Tétouan-Al Hoceïma</option>
+            <option value="guelmim">Guelmim-Oued Noun</option>
+            <option value="laayoune">Laâyoune-Sakia El Hamra</option>
+            <option value="dakhla">Dakhla-Oued Ed-Dahab</option>
+          </select>
+          <i class="ti ti-chevron-down select-arrow"></i>
+        </div>
+      </div>
+
+      <!-- Téléphone & Surface -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="telephone">Téléphone</label>
+          <div class="input-wrap" [class.invalid]="isInvalid('telephone')">
+            <i class="ti ti-phone"></i>
+            <input id="telephone" type="tel" formControlName="telephone" placeholder="+212 6XX XXX XXX" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="surface">Surface agricole</label>
+          <div class="surface-row">
+            <div class="input-wrap" [class.invalid]="isInvalid('surface')">
+              <i class="ti ti-crop"></i>
+              <input id="surface" type="number" formControlName="surface"
+                     placeholder="Ex : 12.5" min="0" step="0.1" />
+            </div>
+            <span class="unit-badge">hectares</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bouton submit -->
+      <button type="submit" class="submit-btn">
+        <i class="ti ti-seedling"></i>
+        Créer mon compte agriculteur
+        <i class="ti ti-arrow-right"></i>
+      </button>
+
+      <!-- Lien login -->
+      <p class="login-link">
+        Déjà inscrit ? <a routerLink="/connexion">Connectez-vous</a>
+      </p>
+
+    </form>
+
+  </div>
+</div>

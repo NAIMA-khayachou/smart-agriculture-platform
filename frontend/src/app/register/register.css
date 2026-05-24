@@ -1,0 +1,312 @@
+/* ─── Centrage page ──────────────────────────────── */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  padding: 2rem;
+}
+
+/* ─── Container formulaire ───────────────────────── */
+.form-container {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+  padding: 2.5rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Header ────────────────────────────────────── */
+.form-header {
+  margin-bottom: 1.5rem;
+}
+.form-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #1a1a1a;
+}
+.form-header p {
+  font-size: 0.875rem;
+  color: #888;
+  font-weight: 300;
+}
+
+/* ─── Barre de progression ───────────────────────── */
+.progress-bar {
+  height: 4px;
+  background: #e8e8e8;
+  border-radius: 10px;
+  margin-bottom: 1.75rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #48A111;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* ─── Layout lignes ──────────────────────────────── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ─── Groupe champ ───────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #555;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ─── Wrapper input ──────────────────────────────── */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Icône gauche */
+.input-wrap > i.ti:first-child {
+  position: absolute;
+  left: 13px;
+  font-size: 17px;
+  color: #bbb;
+  pointer-events: none;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.input-wrap input,
+.input-wrap select {
+  width: 100%;
+  height: 46px;
+  padding: 0 46px 0 42px; /* droite 46px pour laisser place au bouton œil */
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  background: #fafafa;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  box-sizing: border-box;
+}
+
+.input-wrap input::placeholder {
+  color: #bbb;
+}
+
+.input-wrap input:focus,
+.input-wrap select:focus {
+  border-color: #48A111;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(72, 161, 17, 0.10);
+}
+
+/* Icône verte au focus */
+.input-wrap:focus-within > i.ti:first-child {
+  color: #48A111;
+}
+
+/* Bordure rouge si invalide — uniquement la bordure, pas de message */
+.input-wrap.invalid input,
+.input-wrap.invalid select {
+  border-color: #e24b4a;
+}
+
+/* ─── Select flèche ──────────────────────────────── */
+.select-wrap select {
+  cursor: pointer;
+  padding-right: 36px;
+}
+.select-arrow {
+  position: absolute;
+  right: 13px;
+  left: auto;
+  pointer-events: none;
+  font-size: 15px;
+  color: #bbb;
+  z-index: 1;
+}
+
+/* ─── Surface agricole ───────────────────────────── */
+.surface-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.surface-row .input-wrap {
+  flex: 1;
+}
+.unit-badge {
+  flex-shrink: 0;
+  height: 46px;
+  padding: 0 14px;
+  background: #48A111;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* ─── Bouton œil (à l'intérieur du champ) ────────── */
+.pass-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 17px;
+  line-height: 1;
+  transition: color 0.2s;
+  z-index: 2;
+}
+.pass-toggle:hover {
+  color: #48A111;
+}
+
+/* Input mot de passe : padding-right pour que le texte
+   ne passe pas sous le bouton œil */
+.input-wrap input[type="password"],
+.input-wrap input[type="text"] {
+  padding-right: 46px;
+}
+
+/* ─── Bouton soumettre ───────────────────────────── */
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  margin-top: 0.5rem;
+  background: #48A111;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+}
+.submit-btn i {
+  font-size: 18px;
+}
+.submit-btn:hover {
+  background: #3a8c0e;
+  box-shadow: 0 6px 20px rgba(72, 161, 17, 0.35);
+  transform: translateY(-1px);
+}
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* ─── Lien connexion ─────────────────────────────── */
+.login-link {
+  text-align: center;
+  font-size: 0.83rem;
+  color: #aaa;
+  margin-top: 1.25rem;
+}
+.login-link a {
+  color: #48A111;
+  font-weight: 500;
+  text-decoration: none;
+}
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ─── Overlay succès ─────────────────────────────── */
+.success-overlay {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 10;
+  animation: fadeIn 0.3s ease;
+}
+.success-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(72, 161, 17, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.4s ease;
+}
+.success-circle i {
+  font-size: 38px;
+  color: #48A111;
+}
+.success-overlay h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+}
+.success-overlay p {
+  font-size: 0.875rem;
+  color: #888;
+}
+
+/* ─── Animations ─────────────────────────────────── */
+@keyframes popIn {
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Responsive ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .form-container {
+    padding: 1.5rem;
+  }
+}
