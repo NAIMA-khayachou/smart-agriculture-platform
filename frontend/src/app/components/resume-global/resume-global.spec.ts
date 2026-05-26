@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ResumeGlobalComponent } from './resume-global';
 
-import { ResumeGlobal } from './resume-global';
-
-describe('ResumeGlobal', () => {
-  let component: ResumeGlobal;
-  let fixture: ComponentFixture<ResumeGlobal>;
+describe('ResumeGlobalComponent', () => {
+  let component: ResumeGlobalComponent;
+  let fixture: ComponentFixture<ResumeGlobalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ResumeGlobal],
+      imports: [ResumeGlobalComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ResumeGlobal);
+    fixture = TestBed.createComponent(ResumeGlobalComponent);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -19,9 +19,9 @@ def load_model():
 
     model_path = os.path.join(
         os.path.dirname(__file__),
-        '..','models', 'best_model_finetuned_latifa.pth'
+        '..','models', 'best_model_finetuned.pth'
     )
-
+    
     try:
         state_dict = torch.load(model_path, map_location=device, weights_only=True)
         model.load_state_dict(state_dict)

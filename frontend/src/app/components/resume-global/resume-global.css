@@ -1,104 +1,184 @@
-.dashboard-content {
-  padding: 30px;
-  background-color: #f8f9fa;
-  min-height: 100vh;
-}
-
-h2 {
-  color: #1b5e20;
-  margin-bottom: 25px;
-  font-weight: 600;
-}
-
-h3 {
-  color: #333;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* Grille des cartes du haut */
-.metrics-grid {
+/* ── Metrics ── */
+.ph-metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1.5rem;
 }
 
-.metric-card {
-  padding: 15px;
-  border-radius: 8px;
-  border-left: 5px solid #1b5e20;
+.ph-metric {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
 }
 
-.icon-avatar {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+.ph-metric-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 50%;
+  gap: 6px;
+
+  i { font-size: 15px; }
+
+  .ti-virus        { color: #E24B4A; }
+  .ti-chart-pie-2  { color: #378ADD; }
+  .ti-cloud-rain   { color: #1D9E75; }
 }
 
-mat-card-title {
-  font-size: 1.8rem !important;
-  font-weight: bold !important;
-  color: #1b5e20;
-  margin-top: 5px;
-}
-
-/* Grille des graphiques */
-.charts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.chart-container {
-  position: relative;
-  height: 280px;
-  width: 100%;
-}
-
-/* Tableaux et Badges */
-.table-card {
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-table {
-  width: 100%;
-  background: white;
-}
-
-th.mat-header-cell {
-  color: #1b5e20;
-  font-weight: bold;
-  font-size: 0.95rem;
-}
-
-code {
-  background-color: #f1f3f4;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: monospace;
-  color: #c62828;
-}
-
-.status-badge {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+.ph-metric-value {
+  font-size: 26px;
   font-weight: 500;
+  color: #111827;
 }
 
-.status-healthy {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+.ph-metric-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
 }
 
-.status-diseased {
-  background-color: #ffebee;
-  color: #c62828;
+/* ── Weather ── */
+.ph-weather {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ph-weather-temp {
+  font-size: 26px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.ph-weather-detail {
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Charts ── */
+.ph-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.ph-chart-card {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.ph-chart-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.ph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.ph-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ph-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.ph-chart-wrap {
+  position: relative;
+  height: 220px;
+}
+
+/* ── Table ── */
+.ph-table-card {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.ph-section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.ph-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+
+  th {
+    text-align: left;
+    color: #9ca3af;
+    font-weight: 500;
+    padding: 6px 8px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+    font-size: 11px;
+  }
+
+  td {
+    padding: 8px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+    color: #111827;
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  code {
+    font-family: monospace;
+    font-size: 12px;
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #374151;
+  }
+}
+
+/* ── Badges ── */
+.ph-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  display: inline-block;
+
+  &.badge-malade {
+    background: #FCEBEB;
+    color: #791F1F;
+  }
+
+  &.badge-saine {
+    background: #EAF3DE;
+    color: #27500A;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .ph-metrics { grid-template-columns: 1fr; }
+  .ph-charts  { grid-template-columns: 1fr; }
 }

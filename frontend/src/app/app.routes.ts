@@ -49,4 +49,3 @@ export const routes: Routes = [
   // Redirection de sécurité au cas où l'ancienne route est appelée directement
   { path: 'resume-global', redirectTo: 'agriculteur/resume-global', pathMatch: 'full' }
 ];
-

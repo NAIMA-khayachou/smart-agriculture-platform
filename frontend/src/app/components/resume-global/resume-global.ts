@@ -1,73 +1,140 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType, Chart, registerables } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts'; // <-- 1. MODIFIÉ ICI
+import { BaseChartDirective } from 'ng2-charts';
 import { MatCardModule } from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
-import {CommonModule} from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { AnalysisService } from '../../services/analysis.service';
+import { WeatherService } from '../../services/weather.service';
+
 Chart.register(...registerables);
+
 @Component({
   selector: 'app-resume-global',
   standalone: true,
-  imports:[MatCardModule,BaseChartDirective,MatTableModule,CommonModule],
+  imports: [MatCardModule, BaseChartDirective, MatTableModule, CommonModule],
   templateUrl: './resume-global.html',
   styleUrls: ['./resume-global.css']
 })
 export class ResumeGlobalComponent implements OnInit {
-  
-  // 1. Indicateurs Clés (Cards)
-  totalImagesAnalysed: number = 14520;
-  modelAccuracy: number = 94.6;
-  diseasesDetectedToday: number = 42;
 
-  // 2. Configuration du Graphique Circulaire (Maladies Fréquentes)
-  public doughnutChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    plugins: { legend: { position: 'top' } }
-  };
-  
-  // Extraction et simulation de tes classes spécifiques (ex: Tomato, Apple, Potato)
-  public doughnutChartData: ChartData<'doughnut'> = {
-    labels: ['Tomato__yellow_leaf_curl_virus', 'Potato__late_blight', 'Apple__black_rot', 'Rice__leaf_blast', 'Autres saines'],
-    datasets: [
-      { data: [35, 25, 15, 10, 15], backgroundColor: ['#d32f2f', '#f57c00', '#388e3c', '#1976d2', '#7b1fa2'] }
-    ]
-  };
-  public doughnutChartType: ChartType = 'doughnut';
+  constructor(
+    private analysisService: AnalysisService,
+    private weatherService: WeatherService
+  ) {}
 
-  // 3. Configuration du Graphique en Courbe (Historique des scans sur 7 jours)
-  public lineChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    scales: {
-      y: { beginAtZero: true }
-    }
-  };
-  public lineChartData: ChartData<'line'> = {
-    labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
-    datasets: [
-      {
-        data: [65, 59, 80, 81, 56, 55, 40],
-        label: 'Scans effectués',
-        backgroundColor: 'rgba(46, 125, 50, 0.2)',
-        borderColor: '#2e7d32',
-        pointBackgroundColor: '#1b5e20',
-        fill: true,
-      }
-    ]
-  };
-  public lineChartType: ChartType = 'line';
+  // =========================
+  // 1. METRICS
+  // =========================
+  diseasesDetected: number = 0;
+  diseasesToday: number = 0;
+  modelAccuracy: number = 96;
 
-  // 4. Données du Tableau (5 dernières analyses)
-  displayedColumns: string[] = ['id', 'plantClass', 'date', 'status'];
-  recentAnalyses = [
-    { id: 'SCAN-9854', plantClass: 'Tomato__late_blight', date: '16/05/2026 12:45', status: 'Malade' },
-    { id: 'SCAN-9853', plantClass: 'Apple__healthy', date: '16/05/2026 11:30', status: 'Saine' },
-    { id: 'SCAN-9852', plantClass: 'Potato__early_blight', date: '16/05/2026 10:15', status: 'Malade' },
-    { id: 'SCAN-9851', plantClass: 'Coffee__rust', date: '15/05/2026 18:22', status: 'Malade' },
-    { id: 'SCAN-9850', plantClass: 'Wheat__healthy', date: '15/05/2026 16:05', status: 'Saine' }
+  // =========================
+  // 2. MÉTÉO (dynamique)
+  // =========================
+  weatherTemp: number = 0;
+  weatherDesc: string = '...';
+  weatherHum: number = 0;
+  weatherLoading: boolean = true;
+  weatherError: boolean = false;
+
+  // =========================
+  // 3. CULTURE CHART (BAR)
+  // =========================
+  cultureLegend = [
+    { label: 'Blé',  value: 40, color: '#1D9E75' },
+    { label: 'Maïs', value: 30, color: '#f39c12' },
+    { label: 'Riz',  value: 20, color: '#3498db' }
   ];
 
-  constructor() { }
+  cultureChartData: ChartData<'bar'> = {
+    labels: ['Blé', 'Maïs', 'Riz'],
+    datasets: [{
+      data: [40, 30, 20],
+      label: 'Maladies détectées',
+      backgroundColor: ['#1D9E75', '#f39c12', '#3498db']
+    }]
+  };
 
-  ngOnInit(): void { }
-  
+  cultureChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: { legend: { display: false } }
+  };
+
+  barChartType: ChartType = 'bar';
+
+  // =========================
+  // 4. TABLE
+  // =========================
+  displayedColumns: string[] = ['id', 'plantClass', 'date', 'status'];
+  recentAnalyses: { id: number; plantClass: string; date: string; status: string }[] = [];
+
+  // =========================
+  // 5. INIT
+  // =========================
+  ngOnInit(): void {
+    const token = localStorage.getItem('token') || '';
+
+    // Stats
+    this.analysisService.getStats(token).subscribe((res: any) => {
+      this.diseasesDetected = res.total;
+      this.diseasesToday    = res.malades;
+    });
+
+    // Analyses
+    this.analysisService.getAnalyses(token).subscribe((res: any) => {
+      this.recentAnalyses = res.map((a: any) => ({
+        id:         a.id,
+        plantClass: a.class_id,
+        date:       new Date(a.created_at ?? Date.now()).toLocaleString('fr-FR'),
+        status:     a.status
+      }));
+    });
+
+    // Météo via géolocalisation
+    this.loadWeather();
+  }
+
+  private loadWeather(): void {
+    if (!navigator.geolocation) {
+      // Fallback : ville fixe si pas de géoloc
+      this.fetchWeatherByCity('Marrakech');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        this.weatherService.getWeather(latitude, longitude).subscribe({
+          next: (data) => this.mapWeatherData(data),
+          error: () => {
+            this.weatherError = true;
+            this.weatherLoading = false;
+          }
+        });
+      },
+      () => {
+        // Permission refusée → fallback ville fixe
+        this.fetchWeatherByCity('Marrakech');
+      }
+    );
+  }
+
+  private fetchWeatherByCity(city: string): void {
+    this.weatherService.getWeatherByCity(city).subscribe({
+      next: (data) => this.mapWeatherData(data),
+      error: () => {
+        this.weatherError = true;
+        this.weatherLoading = false;
+      }
+    });
+  }
+
+  private mapWeatherData(data: any): void {
+    this.weatherTemp    = Math.round(data.main.temp);
+    this.weatherHum     = data.main.humidity;
+    this.weatherDesc    = data.weather[0].description;
+    this.weatherLoading = false;
+  }
 }

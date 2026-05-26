@@ -4,8 +4,15 @@ from fastapi.responses import JSONResponse
 from app.api.disease import router as disease_router
 import traceback
 
+# ✅ AJOUT DB
+from app.core.database import Base, engine
+from app.models_db.analysis import Analysis
+
 app = FastAPI(title="Smart Agriculture API")
 
+# =========================
+# CORS
+# =========================
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:4200"],
@@ -14,7 +21,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Handler global pour voir les erreurs ──────────────
+# =========================
+# CREATE TABLES
+# =========================
+Base.metadata.create_all(bind=engine)
+
+# =========================
+# ROUTES
+# =========================
+app.include_router(disease_router, prefix="/api/v1", tags=["Disease"])
+
+# =========================
+# ERROR HANDLER
+# =========================
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     print(f"❌ ERREUR : {exc}")
@@ -23,8 +42,6 @@ async def global_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"detail": str(exc)}
     )
-
-app.include_router(disease_router, prefix="/api/v1", tags=["Disease"])
 
 @app.get("/")
 def root():

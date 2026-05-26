@@ -1,22 +1,39 @@
-version: '3.8'
+version: "3.9"
 
 services:
- 
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: agriculture_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user123
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+
   api:
-    build: ./detection-service
+    build: .
+    container_name: fastapi_app
+
+    restart: always
+
+    depends_on:
+      - db
+
     ports:
       - "8000:8000"
-    volumes:
-      - ./detection-service:/app
-    environment:
-      - PYTHONUNBUFFERED=1
-    restart: unless-stopped
 
-  # Le Frontend Angular
-  web:
-    build: ./frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - api
-    restart: unless-stopped
+    environment:
+      DATABASE_URL: mysql+pymysql://user:user123@db:3306/Agri_Malade
+
+volumes:
+  mysql_data:
