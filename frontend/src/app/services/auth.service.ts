@@ -27,7 +27,7 @@ export interface AuthToken {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8000/auth';
+  private apiUrl = 'http://localhost:8082/auth';
 
   constructor(private http: HttpClient) {}
 

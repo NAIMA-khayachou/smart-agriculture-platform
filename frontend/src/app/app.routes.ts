@@ -20,10 +20,10 @@ export const routes: Routes = [
   // 1. Pages publiques (Hors Dashboard, pleine page)
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent ,},
-  { path: 'about', component: QueNousSommeNous },
-  { path: 'segmentation', component: PageSegementation },
   {path:'login' , component:Login},
-  {path: 'Register', component: Register},
+  {path: 'register', component: Register},
+  { path: 'detection', component: DetectionComponent },
+
   //{path: 'yield', component: YieldPredictionComponent },
 
 
