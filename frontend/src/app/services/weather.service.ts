@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class WeatherService {
 
-  private apiKey = 'TA_CLE_OPENWEATHERMAP'; // ← remplace ici
+  private apiKey = '65dec9e101969e942885e9073e701288'; 
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
   constructor(private http: HttpClient) {}

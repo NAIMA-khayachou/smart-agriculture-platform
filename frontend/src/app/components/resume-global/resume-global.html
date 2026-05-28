@@ -50,26 +50,6 @@
 </div>
 
 <!-- Charts -->
-<div class="ph-charts">
-
-  <div class="ph-chart-card">
-    <p class="ph-chart-title">Comparaison par culture</p>
-    <div class="ph-legend">
-      <span class="ph-legend-item" *ngFor="let item of cultureLegend">
-        <span class="ph-legend-dot" [style.background]="item.color"></span>
-        {{ item.label }} {{ item.value }}
-      </span>
-    </div>
-    <div class="ph-chart-wrap">
-      <canvas baseChart
-        [data]="cultureChartData"
-        [options]="cultureChartOptions"
-        type="bar">
-      </canvas>
-    </div>
-  </div>
-
-</div>
 
 <!-- Table -->
 <div class="ph-table-card">

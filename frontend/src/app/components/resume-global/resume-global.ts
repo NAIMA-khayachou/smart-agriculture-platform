@@ -74,27 +74,23 @@ export class ResumeGlobalComponent implements OnInit {
   // 5. INIT
   // =========================
   ngOnInit(): void {
-    const token = localStorage.getItem('token') || '';
 
-    // Stats
-    this.analysisService.getStats(token).subscribe((res: any) => {
-      this.diseasesDetected = res.total;
-      this.diseasesToday    = res.malades;
-    });
+  this.analysisService.getStats().subscribe((res: any) => {
+    this.diseasesDetected = res.total;
+    this.diseasesToday    = res.malades;
+  });
 
-    // Analyses
-    this.analysisService.getAnalyses(token).subscribe((res: any) => {
-      this.recentAnalyses = res.map((a: any) => ({
-        id:         a.id,
-        plantClass: a.class_id,
-        date:       new Date(a.created_at ?? Date.now()).toLocaleString('fr-FR'),
-        status:     a.status
-      }));
-    });
+  this.analysisService.getAnalyses().subscribe((res: any) => {
+    this.recentAnalyses = res.map((a: any) => ({
+      id:         a.id,
+      plantClass: a.class_id,
+      date:       new Date(a.created_at ?? Date.now()).toLocaleString('fr-FR'),
+      status:     a.status
+    }));
+  });
 
-    // Météo via géolocalisation
-    this.loadWeather();
-  }
+  this.loadWeather();
+}
 
   private loadWeather(): void {
     if (!navigator.geolocation) {

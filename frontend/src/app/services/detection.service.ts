@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 export interface DetectionResult {
   success: boolean;
   filename: string;
@@ -33,7 +33,7 @@ export interface SegmentationResult {
 
 @Injectable({ providedIn: 'root' })
 export class DetectionService {
-  private apiUrl     = 'http://localhost:8000/predict';
+  private  apiUrl = 'http://localhost:8000/api/v1';
   private segmentUrl = 'http://127.0.0.1:8081/segementation/mask';
 
   constructor(private http: HttpClient) {}
@@ -41,7 +41,13 @@ export class DetectionService {
   detectDisease(file: File): Observable<DetectionResult> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<DetectionResult>(`${this.apiUrl}/predict`, formData);
+    return this.http.post<DetectionResult>(
+  `${this.apiUrl}/predict`,
+  formData,
+  {
+    headers: this.getAuthHeaders()
+  }
+);
   }
 
   segmentDisease(file: File): Observable<SegmentationResult> {
@@ -71,4 +77,11 @@ export class DetectionService {
       })
     );
   }
+  private getAuthHeaders(): HttpHeaders {
+  const token = localStorage.getItem('access_token');
+             console.log(localStorage.getItem('access_token'));
+  return new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+}
 }

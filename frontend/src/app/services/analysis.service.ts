@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,19 +10,16 @@ export class AnalysisService {
 
   constructor(private http: HttpClient) {}
 
-  getStats(token: string) {
-    return this.http.get(`${this.apiUrl}/stats`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  private authHeaders() {
+    const token = localStorage.getItem('access_token'); // ← 'access_token' pas 'token'
+    return { headers: { Authorization: `Bearer ${token}` } };
   }
 
-  getAnalyses(token: string) {
-    return this.http.get(`${this.apiUrl}/analyses`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  getStats() {
+    return this.http.get(`${this.apiUrl}/stats`, this.authHeaders());
+  }
+
+  getAnalyses() {
+    return this.http.get(`${this.apiUrl}/analyses`, this.authHeaders());
   }
 }

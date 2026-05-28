@@ -13,7 +13,7 @@ import {
   RotateCcw,
   MessageCircle 
 } from 'lucide-angular';
-import { DiseaseService, PredictionResult } from '../services/plant-service.component';
+import { DiseaseService, PredictionResult, PredictResponse } from '../services/plant-service.component';
 import { Router } from '@angular/router';
 interface DisplayResult {
   plant     : string;
@@ -110,7 +110,7 @@ export class DetectionComponent {
   }
 
   // ── Analyse ────────────────────────────────────────
-  analyze() {
+ analyze() {
     const file = this.selectedFile();
     if (!file) return;
 
@@ -125,14 +125,14 @@ export class DetectionComponent {
     }, 100);
 
     this.diseaseService.predict(file).subscribe({
-      next: (res: PredictionResult) => {
-        console.log('Réponse brute backend détection :', res); 
+      next: (res: PredictResponse) => {
+        console.log('Réponse brute backend détection :', res);
         clearInterval(interval);
         this.progress.set(100);
         this.status.set('analyzing');
 
         setTimeout(() => {
-          this.result.set(this.mapResult(res));
+          this.result.set(this.mapResult(res.result)); // ← res.result
           this.status.set('done');
         }, 1000);
       },

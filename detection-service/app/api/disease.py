@@ -37,7 +37,7 @@ async def predict_disease(
     # USER depuis JWT
     # =====================
 
-    farmer_id = user["sub"]
+    farmer_id = int(user["sub"])
 
     # =====================
     # DB
@@ -81,41 +81,29 @@ async def predict_disease(
     }
 @router.get("/analyses")
 def get_analyses(user: dict = Depends(get_current_user)):
-
     db = SessionLocal()
-
     try:
         analyses = db.query(Analysis).filter(
-            Analysis.farmer_id == user["sub"]
+            Analysis.farmer_id == int(user["sub"])  # ← int()
         ).order_by(Analysis.id.desc()).all()
-
         return analyses
-
     finally:
         db.close()
 
 @router.get("/stats")
 def get_stats(user: dict = Depends(get_current_user)):
-
     db = SessionLocal()
-
     try:
         total = db.query(Analysis).filter(
-            Analysis.farmer_id == user["sub"]
+            Analysis.farmer_id == int(user["sub"])  # ← int()
         ).count()
 
         malades = db.query(Analysis).filter(
-            Analysis.farmer_id == user["sub"],
+            Analysis.farmer_id == int(user["sub"]),  # ← int()
             Analysis.status == "Malade"
         ).count()
 
         sains = total - malades
-
-        return {
-            "total": total,
-            "malades": malades,
-            "sains": sains
-        }
-
+        return {"total": total, "malades": malades, "sains": sains}
     finally:
-        db.close()        
+        db.close()
